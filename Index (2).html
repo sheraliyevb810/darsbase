@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarsBase — Bilim Platformasi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f4f5f7;
+            --bg-card: #ffffff;
+            --text-main: #111111;
+            --text-sub: #555555;
+            --border-color: #e1e3e8;
+            --btn-black: #0d0d0d;
+            --btn-text: #ffffff;
+            --item-bg: #f8f9fa;
+            --item-border: #dcdfe3;
+            --badge-bg: #f0f1f3;
+            --input-bg: #ffffff;
+            --success-color: #137333;
+            --error-color: #c5221f;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0a0a0a;
+            --bg-card: #141414;
+            --text-main: #ffffff;
+            --text-sub: #aaaaaa;
+            --border-color: #262626;
+            --btn-black: #ffffff;
+            --btn-text: #000000;
+            --item-bg: #1e1e1e;
+            --item-border: #333333;
+            --badge-bg: #222222;
+            --input-bg: #1c1c1c;
+            --success-color: #5bb974;
+            --error-color: #f28b82;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-size: 15px;
+        }
+
+        .navbar {
+            background-color: #0d0d0d;
+            color: #ffffff;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #222;
+        }
+
+        .brand-logo {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .brand-logo span { color: #888; }
+
+        .creator-tag {
+            font-size: 9px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-top: 2px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-btn {
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 14px;
+            flex: 1;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        .page.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .hero-subtitle {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .hero-desc {
+            font-size: 14px;
+            color: var(--text-sub);
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .btn-black {
+            background: var(--btn-black);
+            color: var(--btn-text);
+            border: none;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 14px 10px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+        }
+
+        .section-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .pill-tag {
+            background: var(--badge-bg);
+            color: var(--text-sub);
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .form-group { margin-bottom: 14px; }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            background: var(--input-bg);
+            color: var(--text-main);
+        }
+
+        .grid-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .item-card {
+            background: var(--item-bg);
+            border: 1px solid var(--item-border);
+            border-radius: 12px;
+            padding: 16px 14px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-card:hover { border-color: var(--text-main); }
+
+        .item-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .item-desc {
+            font-size: 13px;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--btn-black);
+            transition: width 0.3s ease;
+        }
+
+        .timer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--badge-bg);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .timer-box {
+            color: #e63946;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .lifelines-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .lifeline-btn {
+            flex: 1;
+            background: var(--item-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 6px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        #quizQuestion {
+            font-size: 17px !important;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-main);
+            border-radius: 12px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .option-btn.selected {
+            background: var(--btn-black);
+            color: var(--btn-text);
+            border-color: var(--btn-black);
+            font-weight: 700;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-sub);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .user-chip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--item-bg);
+            border: 1px solid var(--item-border);
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .change-user-link {
+            color: var(--text-sub);
+            font-size: 12px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .review-card {
+            background: var(--item-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .review-card.correct-card { border-left: 4px solid var(--success-color); }
+        .review-card.wrong-card { border-left: 4px solid var(--error-color); }
+
+        .review-q { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+        .review-ans { font-size: 13px; color: var(--text-sub); }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div>
+            <div class="brand-logo">DarsBase<span>.</span></div>
+            <div class="creator-tag">SHERALIYEV BUNYODBEK</div>
+        </div>
+        <div class="nav-right">
+            <button class="nav-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
+            <select class="nav-btn" id="langSelect" onchange="changeLanguage()">
+                <option value="uz">UZ</option>
+                <option value="en">EN</option>
+                <option value="ru">RU</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- LOGIN PAGE -->
+        <div class="page" id="page-login">
+            <div class="hero-card">
+                <div class="hero-subtitle" id="t-lsub">AKADEMIK PORTAL</div>
+                <div class="hero-title" id="t-ltitle">Bilimlar bazasiga xush kelibsiz!</div>
+                <div class="hero-desc" id="t-ldesc">Testlarni yechish va bilimlaringizni sinash uchun ism hamda familiyangizni kiriting.</div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title" id="t-preg">Ro'yxatdan o'tish</div>
+                    <div class="pill-tag">KIRISH</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" id="t-fname">ISMINGIZ</label>
+                    <input type="text" class="form-input" id="inputFname" placeholder="Ismingizni kiriting">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" id="t-lname">FAMILIYANGIZ</label>
+                    <input type="text" class="form-input" id="inputLname" placeholder="Familiyangizni kiriting">
+                </div>
+                <button class="btn-black" onclick="submitLogin()" id="t-lbtn">Platformaga kirish ↗</button>
+            </div>
+        </div>
+
+        <!-- HOME PAGE -->
+        <div class="page" id="page-home">
+            <div class="user-chip">
+                <span>🎓 Foydalanuvchi: <span id="displayUserName" style="font-weight: 800;">O'quvchi</span></span>
+                <span class="change-user-link" onclick="logoutUser()" id="t-change">O'zgartirish</span>
+            </div>
+
+            <div class="hero-card">
+                <div class="hero-subtitle" id="t-hsub">INTERAKTIV TA'LIM PLATFORMASI</div>
+                <div class="hero-title" id="t-htitle">Bilimingizni sinab ko'ring.</div>
+                <div class="hero-desc" id="t-hdesc">5 ta asosiy fan va har bir fanda 10 tadan noyob mavzu va unikal testlar!</div>
+                <button class="btn-black" onclick="navigateTo('page-subjects')">
+                    <span id="t-hbtn">O'quv jarayonini boshlash</span> ↗
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-tests">0</div>
+                    <div class="stat-label" id="t-stests">TESTLAR</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-best">0%</div>
+                    <div class="stat-label" id="t-sbest">ENG YAXSHI</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-rank">Talaba</div>
+                    <div class="stat-label" id="t-srank">DARAJA</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBJECTS PAGE -->
+        <div class="page" id="page-subjects">
+            <button class="back-btn" onclick="navigateTo('page-home')" id="t-backhome">← Bosh sahifaga qaytish</button>
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title" id="t-stitle">Fanlar katalogi</div>
+                    <div class="pill-tag">5 TA FAN</div>
+                </div>
+                <div class="grid-list" id="subjectsList"></div>
+            </div>
+        </div>
+
+        <!-- TOPICS PAGE -->
+        <div class="page" id="page-topics">
+            <button class="back-btn" onclick="navigateTo('page-subjects')" id="t-backsub">← Fanlarga qaytish</button>
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title" id="t-ttitle">Mavzular (10 ta)</div>
+                    <div class="pill-tag" id="selectedSubjectPill">FAN</div>
+                </div>
+                <div class="grid-list" id="topicsList"></div>
+            </div>
+        </div>
+
+        <!-- QUIZ PAGE -->
+        <div class="page" id="page-quiz">
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="quizProgressBar"></div>
+            </div>
+            <div class="section-card">
+                <div class="timer-header">
+                    <span id="quizTopicTitle">Sinov testi</span>
+                    <span class="timer-box" id="timerDisplay">⏱️ 60s</span>
+                </div>
+
+                <div class="lifelines-box">
+                    <button class="lifeline-btn" id="fiftyFiftyBtn" onclick="useFiftyFifty()">💡 50/50</button>
+                    <button class="lifeline-btn" id="extraTimeBtn" onclick="useExtraTime()">⌛ +30s</button>
+                    <button class="lifeline-btn" id="skipBtn" onclick="useSkip()">⏭️ O'tkazish</button>
+                </div>
+
+                <div id="quizQuestion">Yuklanmoqda...</div>
+                <div id="quizOptions"></div>
+                <button class="btn-black" onclick="nextQuestion()" id="t-next">Keyingi savol ↗</button>
+            </div>
+        </div>
+
+        <!-- RESULT PAGE -->
+        <div class="page" id="page-result">
+            <div class="section-card" style="text-align: center;">
+                <div class="section-title" style="font-size: 22px; margin-bottom: 6px;" id="t-resend">Test Yakunlandi!</div>
+                <p style="color: var(--text-sub); margin-bottom: 8px; font-size: 14px;" id="resultStudentName"></p>
+                <div style="font-size: 42px; font-weight: 800; margin-bottom: 6px;" id="resultScore">0%</div>
+                <p style="color: var(--text-sub); margin-bottom: 16px; font-size: 13px;" id="resultDetails"></p>
+
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn-black" onclick="toggleReviewSection()" id="t-review">🔍 Xatolarni tahlil qilish</button>
+                    <button class="btn-black" style="background: var(--badge-bg); color: var(--text-main);" onclick="navigateTo('page-subjects')" id="t-other">Boshqa fanni tanlash ↗</button>
+                </div>
+            </div>
+
+            <div class="section-card page" id="review-container" style="display: none;">
+                <div class="section-title" style="font-size: 15px; margin-bottom: 10px;" id="t-revtitle">Batafsil tahlil</div>
+                <div id="reviewList"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const dict = {
+            uz: {
+                lsub: "AKADEMIK PORTAL", ltitle: "Bilimlar bazasiga xush kelibsiz!", ldesc: "Testlarni yechish va bilimlaringizni sinash uchun ism hamda familiyangizni kiriting.", preg: "Ro'yxatdan o'tish", fname: "ISMINGIZ", lname: "FAMILIYANGIZ", lbtn: "Platformaga kirish",
+                change: "O'zgartirish", hsub: "INTERAKTIV TA'LIM PLATFORMASI", htitle: "Bilimingizni sinab ko'ring.", hdesc: "5 ta asosiy fan va har bir fanda 10 tadan noyob mavzu va unikal testlar!", hbtn: "O'quv jarayonini boshlash",
+                stests: "TESTLAR", sbest: "ENG YAXSHI", srank: "DARAJA", backhome: "← Bosh sahifaga qaytish", backsub: "← Fanlarga qaytish", stitle: "Fanlar katalogi", ttitle: "Mavzular (10 ta)",
+                next: "Keyingi savol", resend: "Test Yakunlandi!", review: "🔍 Xatolarni tahlil qilish", other: "Boshqa fanni tanlash", revtitle: "Batafsil tahlil", skip: "⏭️ O'tkazish"
+            },
+            en: {
+                lsub: "ACADEMIC PORTAL", ltitle: "Welcome to Knowledge Base!", ldesc: "Enter your first and last name to take quizzes and test your knowledge.", preg: "Registration", fname: "FIRST NAME", lname: "LAST NAME", lbtn: "Enter Platform",
+                change: "Change", hsub: "INTERACTIVE LEARNING PLATFORM", htitle: "Test your knowledge.", hdesc: "5 core subjects with 10 unique topics each. Every quiz contains unique questions!", hbtn: "Start learning process",
+                stests: "TESTS", sbest: "BEST SCORE", srank: "RANK", backhome: "← Back to Home", backsub: "← Back to Subjects", stitle: "Subjects Catalog", ttitle: "Topics (10)",
+                next: "Next Question", resend: "Test Completed!", review: "🔍 Review Mistakes", other: "Select another subject", revtitle: "Detailed Review", skip: "⏭️ Skip"
+            },
+            ru: {
+                lsub: "АКАДЕМИЧЕСКИЙ ПОРТАЛ", ltitle: "Добро пожаловать в базу знаний!", ldesc: "Введите свое имя и фамилию для прохождения тестов.", preg: "Регистрация", fname: "ИМЯ", lname: "ФАМИЛИЯ", lbtn: "Войти на платформу",
+                change: "Изменить", hsub: "ИНТЕРАКТИВНАЯ ПЛАТФОРМА", htitle: "Проверьте свои знания.", hdesc: "5 основных предметов по 10 уникальных тем. В каждом тесте уникальные вопросы!", hbtn: "Начать обучение",
+                stests: "ТЕСТЫ", sbest: "ЛУЧШИЙ", srank: "РАНГ", backhome: "← На главную", backsub: "← К предметам", stitle: "Каталог предметов", ttitle: "Темы (10)",
+                next: "Следующий вопрос", resend: "Тест Завершен!", review: "🔍 Анализ ошибок", other: "Выбрать другой предмет", revtitle: "Подробный анализ", skip: "⏭️ Пропустить"
+            }
+        };
+
+        function changeLanguage() {
+            const lang = document.getElementById('langSelect').value;
+            const t = dict[lang] || dict.uz;
+            document.getElementById('t-lsub').innerText = t.lsub;
+            document.getElementById('t-ltitle').innerText = t.ltitle;
+            document.getElementById('t-ldesc').innerText = t.ldesc;
+            document.getElementById('t-preg').innerText = t.preg;
+            document.getElementById('t-fname').innerText = t.fname;
+            document.getElementById('t-lname').innerText = t.lname;
+            document.getElementById('t-lbtn').innerText = t.lbtn + " ↗";
+            document.getElementById('t-change').innerText = t.change;
+            document.getElementById('t-hsub').innerText = t.hsub;
+            document.getElementById('t-htitle').innerText = t.htitle;
+            document.getElementById('t-hdesc').innerText = t.hdesc;
+            document.getElementById('t-hbtn').innerText = t.hbtn + " ↗";
+            document.getElementById('t-stests').innerText = t.stests;
+            document.getElementById('t-sbest').innerText = t.sbest;
+            document.getElementById('t-srank').innerText = t.srank;
+            document.getElementById('t-backhome').innerText = t.backhome;
+            document.getElementById('t-backsub').innerText = t.backsub;
+            document.getElementById('t-stitle').innerText = t.stitle;
+            document.getElementById('t-ttitle').innerText = t.ttitle;
+            document.getElementById('t-next').innerText = t.next + " ↗";
+            document.getElementById('t-resend').innerText = t.resend;
+            document.getElementById('t-review').innerText = t.review;
+            document.getElementById('t-other').innerText = t.other + " ↗";
+            document.getElementById('t-revtitle').innerText = t.revtitle;
+            document.getElementById('skipBtn').innerText = t.skip;
+            localStorage.setItem('db_lang', lang);
+        }
+
+        // Full Database: 5 Subjects x 10 Topics x 10 Unique Questions Each (100% Unique)
+        const db = {
+            onatili: {
+                title: "Ona tili",
+                topics: [
+                    {
+                        title: "1. Fonetika va Unli tovushlar",
+                        q: [
+                            { q: "O'zbek tilida nechta unli tovush bor?", opts: ["6 ta", "5 ta", "8 ta", "10 ta"], ans: 0 },
+                            { q: "Qaysi so'zda unlilar uyg'unligi kuzatiladi?", opts: ["Ota", "Kitob", "Maktab", "G'uncha"], ans: 0 },
+                            { q: "Jarangli undoshni toping:", opts: ["B", "P", "K", "T"], ans: 0 },
+                            { q: "Qaysi tovush faqat til orqa hisoblanadi?", opts: ["G'", "S", "M", "L"], ans: 0 },
+                            { q: "UrG'u ko'pincha so'zning qaysi bo'g'iniga tushadi?", opts: ["Oxirgi bo'g'inga", "Birinchi bo'g'inga", "O'rtadagiga", "Tushmaydi"], ans: 0 },
+                            { q: "Til oldi unlisini ko'rsating:", opts: ["I", "O", "U", "A"], ans: 0 },
+                            { q: "Jarangsiz undoshlar qatorini toping:", opts: ["P, T, K, S", "B, D, G, Z", "M, N, L, R", "V, J, Z, G'"], ans: 0 },
+                            { q: "'Toshkent' so'zida nechta bo'g'in bor?", opts: ["2 ta", "3 ta", "1 ta", "4 ta"], ans: 0 },
+                            { q: "Tutroq belgisi ( ' ) nimani bildiradi?", opts: ["Aholida ajratish va softness", "UrG'uni", "So'z tugashini", "Pauzani"], ans: 0 },
+                            { q: "Qaysi so'zda fonetik hodisa yuz bergan?", opts: ["Sariq - sarg'aymoq", "Kitob - kitoblar", "Uy - uydan", "Bosh - boshliq"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "2. So'z tarkibi va Asos",
+                        q: [
+                            { q: "So'zning eng kichik ma'noli qismi nima deyiladi?", opts: ["Asos (O'zak)", "Qo'shimcha", "Bo'g'in", "Ibora"], ans: 0 },
+                            { q: "Qaysi qo'shimcha yangi so'z yasaydi?", opts: ["So'z yasovchi", "Shakl yasovchi", "Lug'at shakllantiruvchi", "Aksiz"], ans: 0 },
+                            { q: "'Paxtakor' so'zidagi '-kor' qanday qo'shimcha?", opts: ["So'z yasovchi", "Egalik", "Kelshik", "Ko'plik"], ans: 0 },
+                            { q: "Qaysi so'z tub so'z hisoblanadi?", opts: ["Suv", "Suvchi", "Suvsiz", "Suvshunos"], ans: 0 },
+                            { q: "Yasama so'zni toping:", opts: ["Ishchi", "Daraxt", "Qalam", "Shahar"], ans: 0 },
+                            { q: "Ko'plik qo'shimchasini ko'rsating:", opts: ["-lar", "-da", "-dan", "-ning"], ans: 0 },
+                            { q: "Narsa va hodisalarni nomlovchi qo'shimchalar?", opts: ["Leksik qo'shimcha", "Grammatik", "Erkin", "Bog'liqlik"], ans: 0 },
+                            { q: "'Gulzor' so'zidagi o'zak qaysi?", opts: ["Gul", "Gulzor", "Zor", "Gu"], ans: 0 },
+                            { q: "Qaysi so'zda ikkita so'z yasovchi qo'shimcha bor?", opts: ["A'lochi-lik", "Kitob-lar", "Tosh-dan", "Uy-imiz"], ans: 0 },
+                            { q: "Qo'shimchalar necha guruhga bo'linadi?", opts: ["2 guruhga", "3 guruhga", "4 guruhga", "5 guruhga"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "3. Ot so'z turkumi",
+                        q: [
+                            { q: "Kim? Nima? Qayer? so'roqlariga javob bo'ladigan so'zlar?", opts: ["Ot", "Sifat", "Fe'l", "Son"], ans: 0 },
+                            { q: "Atoqli otni toping:", opts: ["Alisher Navoiy", "Daryo", "Shahar", "Kitob"], ans: 0 },
+                            { q: "Turdosh otni ko'rsating:", opts: ["O'quvchi", "Samarqand", "Toshkent", "Amu Daryo"], ans: 0 },
+                            { q: "Bosh kelshik qo'shimchasi qaysi?", opts: ["Nol qo'shimcha", "-ning", "-ni", "-ga"], ans: 0 },
+                            { q: "Qaratqich kelishigi qo'shimchasi?", opts: ["-ning", "-ni", "-ga", "-da"], ans: 0 },
+                            { q: "Tushum kelishigi qo'shimchasini toping:", opts: ["-ni", "-ning", "-da", "-dan"], ans: 0 },
+                            { q: "Jo'nalish kelishigi qo'shimchasi?", opts: ["-ga", "-da", "-dan", "-ni"], ans: 0 },
+                            { q: "O'rin-payt kelishigi qo'shimchasi?", opts: ["-da", "-dan", "-ga", "-ning"], ans: 0 },
+                            { q: "Chiqish kelishigi qo'shimchasi?", opts: ["-dan", "-da", "-ga", "-ni"], ans: 0 },
+                            { q: "Egalik qo'shimchalari nimani bildiradi?", opts: ["Tegishlilikni", "Sanoqni", "Belgini", "Harakatni"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "4. Sifat va uning darajalari",
+                        q: [
+                            { q: "Predmetning belgisini bildiruvchi so me'morchiligi?", opts: ["Sifat", "Ot", "Son", "Fe'l"], ans: 0 },
+                            { q: "Sifatning so'roqlari qaysilar?", opts: ["Qanday? Qanaqa?", "Kim? Nima?", "Nechta?", "Nima qildi?"], ans: 0 },
+                            { q: "Oddiy darajadagi sifatni toping:", opts: ["Qizil", "Qizilroq", "Eng qizil", "Qip-qizil"], ans: 0 },
+                            { q: "Oltiruvchi darajadagi sifatni toping:", opts: ["Qizilroq", "Qizil", "Nimqizil", "Eng qizil"], ans: 0 },
+                            { q: "Oshirma darajadagi sifatni ko'rsating:", opts: ["Eng go'zal", "Go'zal", "Go'zalroq", "Oqish"], ans: 0 },
+                            { q: "Oltirma daraja qo'shimchasi qaysi?", opts: ["-roq", "-roqqa", "-roqni", "-roqdan"], ans: 0 },
+                            { q: "Asliy sifatni ko'rsating:", opts: ["Maza", "Aqliy", "Devoriy", "Toshkentlik"], ans: 0 },
+                            { q: "Nisbiy sifatni toping:", opts: ["Toshkentlik", "Katta", "Kichik", "Yaxshi"], ans: 0 },
+                            { q: "Qaysi bir shakl takroriy sifat hisoblanadi?", opts: ["Baland-baland", "Ko'm-ko'k", "Eng baland", "Balandroq"], ans: 0 },
+                            { q: "'Qip-qizil' so'zi sifatning qaysi shakli?", opts: ["Ortirma darajasi", "Oltiruvchi", "Oddiy", "Nisbiy"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "5. Son va uning turlari",
+                        q: [
+                            { q: "Narsa va buyumlar soni hamda sanog'ini bildiruvchi so'zlar?", opts: ["Son", "Ot", "Sifat", "Fe'l"], ans: 0 },
+                            { q: "Sanoq sonni toping:", opts: ["Besh", "Beshinchi", "Beshtadan", "Beshovlon"], ans: 0 },
+                            { q: "Tartib sonni ko'rsating:", opts: ["O'ninchi", "O'n", "O'ntacha", "O'ntadan"], ans: 0 },
+                            { q: "Tartib son yasovchi qo'shimchasi?", opts: ["-inchi / -nchi", "-ta", "-tacha", "-ovlon"], ans: 0 },
+                            { q: "Dona sonni toping:", opts: ["Besh ta", "Beshinchi", "Beshtacha", "Beshovlon"], ans: 0 },
+                            { q: "Chama son qaysi qo'shimcha bilan yasaladi?", opts: ["-tacha", "-inchi", "-ta", "-ovlon"], ans: 0 },
+                            { q: "Jamlovchi sonni ko'rsating:", opts: ["Oltovlon", "Olti", "Oltinchi", "Oltitacha"], ans: 0 },
+                            { q: "Taqsim son qo'shimchasi qaysi?", opts: ["-dan / -tadan", "-ta", "-inchi", "-ovlon"], ans: 0 },
+                            { q: "Kasr sonni toping:", opts: ["Uchdan bir", "Uchta", "Uchinchi", "Uchtacha"], ans: 0 },
+                            { q: "'Yuzlab' so'zi sonning qaysi turiga kiradi?", opts: ["Chama son", "Dona son", "Tartib son", "Jamlovchi son"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "6. Olmosh va uning turlari",
+                        q: [
+                            { q: "Ot, sifat, son o'rnida qo'llanuvchi so'zlar?", opts: ["Olmosh", "Fe'l", "Ravish", "Bog'lovchi"], ans: 0 },
+                            { q: "Kishi olmoshlarini ko'rsating:", opts: ["Men, sen, u", "Bu, shu, o'sha", "Kim? Nima?", "Hamma, barcha"], ans: 0 },
+                            { q: "Ko'rsatish olmoshini toping:", opts: ["Bu, shu, u", "Men, sen", "Qachon?", "Hech kim"], ans: 0 },
+                            { q: "So'roq olmoshini ko'rsating:", opts: ["Kim? Nima? Qachon?", "Barcha, hamma", "Bu, shu", "O'zim"], ans: 0 },
+                            { q: "O'zlik olmoshi qaysi?", opts: ["O'z", "Men", "Bu", "Hamma"], ans: 0 },
+                            { q: "Belgilash olmoshini toping:", opts: ["Hamma, barcha, har kim", "Hech kim", "Bu, shu", "Kimdir"], ans: 0 },
+                            { q: "Inkor olmoshini ko'rsating:", opts: ["Hech kim, hech narsa", "Har kim", "Kimdir", "O'zim"], ans: 0 },
+                            { q: "Gumon olmoshini toping:", opts: ["Kimdir, nimadir", "Hech kim", "Hamma", "Bu"], ans: 0 },
+                            { q: "'O'zim bajaraman' gapidagi 'o'zim' qaysi olmosh?", opts: ["O'zlik olmoshi", "Kishi", "Ko'rsatish", "So'roq"], ans: 0 },
+                            { q: "'Barcha o'quvchilar' gapidagi 'barcha' qaysi olmosh?", opts: ["Belgilash olmoshi", "Gumon", "Inkor", "Ko'rsatish"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "7. Fe'l va Zamonlar",
+                        q: [
+                            { q: "Harakat va holatni bildiruvchi so'zlar?", opts: ["Fe'l", "Ot", "Sifat", "Son"], ans: 0 },
+                            { q: "Fe'lning so'roqlari qaysilar?", opts: ["Nima qildi? Nima qilyapti?", "Kim? Nima?", "Qanday?", "Nechta?"], ans: 0 },
+                            { q: "O'tgan zamon fe'lini toping:", opts: ["Yazdi", "Yazyapti", "Yazadi", "Yazmoqchi"], ans: 0 },
+                            { q: "Hozirgi zamon fe'lini ko'rsating:", opts: ["O'qiyapti", "O'qidi", "O'qiydi", "O'qigan"], ans: 0 },
+                            { q: "Kelasi zamon fe'lini toping:", opts: ["Boradi", "Bordi", "Boryapti", "Borgan"], ans: 0 },
+                            { q: "Inkor fe'li qaysi qo'shimcha bilan yasaladi?", opts: ["-ma", "-gan", "-yapti", "-di"], ans: 0 },
+                            { q: "Bo'lishli fe'lni ko'rsating:", opts: ["Keldi", "Kelamadi", "Kelmadi", "Kelmaydi"], ans: 0 },
+                            { q: "Fe'lning munosabat shakllari?", opts: ["Shaxs-son va Zamon", "Egalik va Kelishik", "Daraja", "Sanoq"], ans: 0 },
+                            { q: "'U kitob o'qiyapti' - zamonini toping:", opts: ["Hozirgi zamon", "O'tgan zamon", "Kelasi zamon", "Mavhum zamon"], ans: 0 },
+                            { q: "Masdar shakli qo'shimchasi qaysi?", opts: ["-moq", "-di", "-gan", "-ib"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "8. Ravish so'z turkumi",
+                        q: [
+                            { q: "Harakatning bajarilish tarzi va holatini bildiruvchi so'zlar?", opts: ["Ravish", "Sifat", "Olmosh", "Nido"], ans: 0 },
+                            { q: "Holat ravishini toping:", opts: ["Tez, sekin", "Ko'p, oz", "Kecha, bugun", "Olg'a, orqaga"], ans: 0 },
+                            { q: "Payt ravishini ko'rsating:", opts: ["Bugun, ertaga, kecha", "Tez, sekin", "Ko'p, kam", "Uzoq, yaqin"], ans: 0 },
+                            { q: "O'rin ravishini toping:", opts: ["Uzoqda, yaqinda, ko'chada", "Tez", "Kecha", "Juda"], ans: 0 },
+                            { q: "Meqdor-daraja ravishini ko'rsating:", opts: ["Ko'p, kam, juda", "Sekin", "Bugun", "Ichkarida"], ans: 0 },
+                            { q: "Sabab va Maqsad ravishini toping:", opts: ["Ataylab, noiloj", "Tez", "Ertaga", "Yaqinda"], ans: 0 },
+                            { q: "'U tez yugurdi' gapida 'tez' qaysi so'z turkumi?", opts: ["Ravish", "Sifat", "Ot", "Fe'l"], ans: 0 },
+                            { q: "Ravishlar ko'pincha qaysi so'zga bog'lanadi?", opts: ["Fe'lga", "Otga", "Sifatga", "Songa"], ans: 0 },
+                            { q: "Sifat va ravishning farqi nimada?", opts: ["Sifat otga, ravish fe'lga bog'lanadi", "Farqi yo'q", "Sifat son bildiradi", "Ravish ism hisoblanadi"], ans: 0 },
+                            { q: "'Ataylab aytdi' gapidagi 'ataylab' qanday ravish?", opts: ["Maqsad ravishi", "Payt ravishi", "O'rin ravishi", "Miqdor ravishi"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "9. Sintaksis: Gap va uning Turlari",
+                        q: [
+                            { q: "So'zlarning ma'no va grammatik jihatdan birikuvidan hosil bo'ladi?", opts: ["Gap", "So'z birikmasi", "Fonetika", "Lug'at"], ans: 0 },
+                            { q: "Gapning bosh bo'laklari qaysilar?", opts: ["Ega va Kesim", "To'ldiruvchi va Hol", "Aniqlovchi va Ega", "Kesim va Hol"], ans: 0 },
+                            { q: "Gapda kim? nima? so'rog'iga javob bo'ladigan bosh bo'lak?", opts: ["Ega", "Kesim", "To'ldiruvchi", "Hol"], ans: 0 },
+                            { q: "Eganing harakat va holatini ko'rsatuvchi bosh bo'lak?", opts: ["Kesim", "Ega", "Aniqlovchi", "To'ldiruvchi"], ans: 0 },
+                            { q: "Darak gap oxirida qaysi tinish belgisi qo'yiladi?", opts: ["Nuqta (.)", "So'roq (?)", "Undov (!)", "Ko'p nuqta (...)"], ans: 0 },
+                            { q: "His-hayajon va buyruqni bildiruvchi gap?", opts: ["Undov gap", "Darak gap", "So'roq gap", "Inkor gap"], ans: 0 },
+                            { q: "So'roq gapning belgisini ko'rsating:", opts: ["So'roq belgisi (?)", "Nuqta", "Undov", "Nol"], ans: 0 },
+                            { q: "Ikkinchi darajali bo'laklarni ko'rsating:", opts: ["To'ldiruvchi, Aniqlovchi, Hol", "Ega va Kesim", "Bosh va Yordamchi", "Undov va Kirish"], ans: 0 },
+                            { q: "Qaysi bo'lak kimni? nimani? so'roqlariga javob bo'ladi?", opts: ["To'ldiruvchi", "Aniqlovchi", "Hol", "Ega"], ans: 0 },
+                            { q: "Sodda gap va Qo'shma gapning farqi nimada?", opts: ["Kesimlar sonida", "Bo'g'inlar sonida", "So'zlar sonida", "Farqi yo'q"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "10. Tinish belgilari va Uslubiyat",
+                        q: [
+                            { q: "Bir jinsli bo'laklar orasida qanday tinish belgisi qo'yiladi?", opts: ["Vergul (,)", "Nuqta (.)", "Chiziqcha (-)", "Nuqtali vergul (;)"], ans: 0 },
+                            { q: "Muallif gapi va Ko'chirma gapda qaysi belgi ishlatiladi?", opts: ["Tirnoq va Chiziqcha", "Faqat nuqta", "So'roq belgisi", "Vergul va nuqta"], ans: 0 },
+                            { q: "Kiritish va Undalmalardan so'ng qaysi belgi qo'yiladi?", opts: ["Vergul (,)", "Nuqta", "Tirnoq", "Ikki nuqta"], ans: 0 },
+                            { q: "Gap tugallanganda qaysi tinish belgisi ishlatiladi?", opts: ["Nuqta", "Vergul", "Chiziqcha", "Mavhum"], ans: 0 },
+                            { q: "Dialoglarda har bir shaxs gapi oldidan nima qo me'mor qilinadi?", opts: ["Chiziqcha (-)", "Tirnoq", "Vergul", "Nuqta"], ans: 0 },
+                            { q: "Badiiy uslubning asosiy xususiyati nima?", opts: ["Tasviriylik va jozibadorlik", "Aniq rasmiylik", "Ilmiylik", "Mantiqiylik"], ans: 0 },
+                            { q: "Rasmiy-idora uslubiga xos hujjatni ko'rsating:", opts: ["Ariza, Bildirishnoma", "G'azal", "Ertak", "Maqola"], ans: 0 },
+                            { q: "Ilmiy uslubning asosiy belgisi nimada?", opts: ["Termin va aniq faktlar", "Badiiy bo'yoqlar", "His-hayajon", "Qisqalik"], ans: 0 },
+                            { q: "So'zlashuv uslubi qayerda qo'llaniladi?", opts: ["Kunlik erkin muloqotda", "Hujjatlarda", "Darsliklarda", "Qonunlarda"], ans: 0 },
+                            { q: "Publitsistik uslub qayerda ko'p ishlatiladi?", opts: ["OAV va gazetalar", "Badiiy kitobda", "Nizomda", "Uyda"], ans: 0 }
+                        ]
+                    }
+                ]
+            },
+            matematika: {
+                title: "Matematika",
+                topics: [
+                    {
+                        title: "1. Sonlar va Amallar",
+                        q: [
+                            { q: "25 + 47 yig'indisini toping?", opts: ["72", "62", "82", "71"], ans: 0 },
+                            { q: "100 - 37 ayirmani hisoblang?", opts: ["63", "73", "53", "67"], ans: 0 },
+                            { q: "12 * 5 ko'paytmasi nechiga teng?", opts: ["60", "50", "70", "65"], ans: 0 },
+                            { q: "144 / 12 bo'linmani toping?", opts: ["12", "14", "10", "11"], ans: 0 },
+                            { q: "Eng kichik tub sonni ko'rsating?", opts: ["2", "1", "3", "0"], ans: 0 },
+                            { q: "3 ning kubi (3^3) nechiga teng?", opts: ["27", "9", "18", "81"], ans: 0 },
+                            { q: "Qaysi son 5 ga qoldiqsiz bo'linadi?", opts: ["85", "83", "82", "81"], ans: 0 },
+                            { q: "sqrt(81) ildizidan nechchi chiqadi?", opts: ["9", "8", "7", "81"], ans: 0 },
+                            { q: "(15 + 5) * 2 amalini bajarish tartibi natijasi?", opts: ["40", "25", "35", "50"], ans: 0 },
+                            { q: "0 ga ko'paytirilgan har qanday son nimaga teng?", opts: ["0", "1", "O'ziga", "Noma'lum"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "2. Oddiy va O'nli kasrlar",
+                        q: [
+                            { q: "1/2 va 1/4 ning yig'indisi qancha?", opts: ["3/4", "2/6", "1/8", "1/3"], ans: 0 },
+                            { q: "0.5 ning kasr ko'rinishini toping:", opts: ["1/2", "1/5", "5/100", "2/5"], ans: 0 },
+                            { q: "3/5 kasrni o'nli kasrga aylantiring:", opts: ["0.6", "0.35", "0.53", "0.3"], ans: 0 },
+                            { q: "2.5 + 1.3 yig'indisi nechiga teng?", opts: ["3.8", "3.5", "4.0", "3.2"], ans: 0 },
+                            { q: "4/7 va 2/7 kasrlar ayirmasi?", opts: ["2/7", "6/7", "2/0", "1/7"], ans: 0 },
+                            { q: "To'g'ri kasrni ko'rsating:", opts: ["3/5", "5/3", "7/4", "9/2"], ans: 0 },
+                            { q: "Noto'g me'moriy kasrni toping:", opts: ["8/5", "2/3", "1/4", "5/9"], ans: 0 },
+                            { q: "0.25 qaysi oddiy kasrga teng?", opts: ["1/4", "1/2", "3/4", "1/5"], ans: 0 },
+                            { q: "Kasrning surati va mahraji teng bo'lsa qiymati?", opts: ["1 ga teng", "0 ga teng", "Mavjud emas", "2 ga teng"], ans: 0 },
+                            { q: "1/3 * 3/4 ko'paytmani hisoblang:", opts: ["1/4", "3/12", "1/3", "3/7"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "3. Tenglamalar va Tengsizliklar",
+                        q: [
+                            { q: "x + 15 = 45 bo'lsa, x ni toping:", opts: ["30", "20", "15", "60"], ans: 0 },
+                            { q: "2x = 50 tenglamadan x ni aniling:", opts: ["25", "100", "20", "30"], ans: 0 },
+                            { q: "3x - 5 = 10 tenglamani yeching:", opts: ["x = 5", "x = 3", "x = 15", "x = 2"], ans: 0 },
+                            { q: "x / 4 = 8 bo'lsa, x nechiga teng?", opts: ["32", "2", "12", "16"], ans: 0 },
+                            { q: "Chiziqli tenglamaning umumiy ko'rinishi?", opts: ["ax + b = 0", "ax^2 + bx + c = 0", "y = x^2", "x/y = k"], ans: 0 },
+                            { q: "Chiziqli tengsizlikni toping:", opts: ["x + 3 > 7", "x + 3 = 7", "x^2 = 9", "2+2=4"], ans: 0 },
+                            { q: "5x < 20 tengsizlik yechimi?", opts: ["x < 4", "x > 4", "x = 4", "x < 10"], ans: 0 },
+                            { q: "x - 8 = 0 tenglamaning ildizi?", opts: ["8", "-8", "0", "16"], ans: 0 },
+                            { q: "Tenglamada noma'lum son nima deyiladi?", opts: ["Ildiz / Noma'lum", "Koeffitsient", "Daraja", "Bo'linuvchi"], ans: 0 },
+                            { q: "2(x + 3) = 14 bo'lsa, x = ?", opts: ["4", "5", "3", "7"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "4. Foizlar va Proportsiya",
+                        q: [
+                            { q: "200 ning 10% i nechiga teng?", opts: ["20", "10", "40", "2"], ans: 0 },
+                            { q: "50 ning 50% i nechiga teng?", opts: ["25", "10", "15", "20"], ans: 0 },
+                            { q: "Butun son foizda qancha hisoblanadi?", opts: ["100%", "50%", "1%", "1000%"], ans: 0 },
+                            { q: "1/4 kasr necha foizni tashkil etadi?", opts: ["25%", "50%", "75%", "10%"], ans: 0 },
+                            { q: "Proportsiyaning asosiy xossasi qaysi?", opts: ["Chetki a'zolar ko'paytmasi o'rta a'zolarga teng", "Qo'shiladi", "Ayriladi", "Teng emas"], ans: 0 },
+                            { q: "a/b = c/d proportsiyada chetki a'zolar?", opts: ["a va d", "b va c", "a va c", "b va d"], ans: 0 },
+                            { q: "100 ning 25% i qancha?", opts: ["25", "50", "75", "10"], ans: 0 },
+                            { q: "300 ning 30% ini toping:", opts: ["90", "60", "30", "100"], ans: 0 },
+                            { q: "0.1 o'nli kasr foizda qancha?", opts: ["10%", "1%", "100%", "0.1%"], ans: 0 },
+                            { q: "Kitob bahosi 100 so'm, 20% arzonlashsa necha so'm bo'ladi?", opts: ["80 so'm", "90 so'm", "70 so'm", "85 so'm"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "5. Geometrik Shakllar va Yuzi",
+                        q: [
+                            { q: "Tomoni 4 sm bo'lgan kvadratning yuzi?", opts: ["16 sm^2", "8 sm^2", "12 sm^2", "20 sm^2"], ans: 0 },
+                            { q: "Kvadratning perimetri formulasi?", opts: ["P = 4a", "P = a^2", "P = 2a + 2b", "S = a*b"], ans: 0 },
+                            { q: "To'g'ri to'rtburchak yuzi formulasi?", opts: ["S = a * b", "S = a + b", "S = 2(a+b)", "S = a^2"], ans: 0 },
+                            { q: "Uchburchak ichki burchaklari yig'indisi?", opts: ["180°", "360°", "90°", "270°"], ans: 0 },
+                            { q: "To'rtburchak ichki burchaklari yig'indisi?", opts: ["360°", "180°", "270°", "540°"], ans: 0 },
+                            { q: "Aylananing uzunligi formulasi?", opts: ["L = 2*pi*R", "S = pi*R^2", "P = 4a", "L = pi*D^2"], ans: 0 },
+                            { q: "Doira yuzasi formulasi qaysi?", opts: ["S = pi * R^2", "L = 2*pi*R", "S = a*b", "S = 1/2 a*h"], ans: 0 },
+                            { q: "To'g'ri burchak necha daraja bo'ladi?", opts: ["90°", "180°", "45°", "360°"], ans: 0 },
+                            { q: "Yoyiq burchak necha darajaga teng?", opts: ["180°", "90°", "360°", "270°"], ans: 0 },
+                            { q: "Teng tomonli uchburchak burchaklari necha darajadan?", opts: ["60°", "90°", "45°", "30°"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "6. Perimetri va Pifagor Teoremasi",
+                        q: [
+                            { q: "To'g'ri burchakli uchburchak gipotenuzasi formulasi?", opts: ["c^2 = a^2 + b^2", "P = a+b+c", "S = a*b", "a=b"], ans: 0 },
+                            { q: "Katetlari 3 sm va 4 sm bo'lgan uchburchak gipotenuzasi?", opts: ["5 sm", "6 sm", "7 sm", "25 sm"], ans: 0 },
+                            { q: "Perimetr nima?", opts: ["Barcha tomonlar yig'indisi", "Yuzasi", "Hajmi", "Burchaklar yig'indisi"], ans: 0 },
+                            { q: "Tomonlari 3, 4, 5 sm bo'lgan uchburchak perimetri?", opts: ["12 sm", "15 sm", "20 sm", "60 sm"], ans: 0 },
+                            { q: "Pifagor teoremasi qaysi uchburchak uchun o'rinli?", opts: ["To'g'ri burchakli", "Teng tomonli", "O'tkir burchakli", "O'tmas burchakli"], ans: 0 },
+                            { q: "Katet nima?", opts: ["To'g'ri burchakni hosil qiluvchi tomonlar", "Eng uzun tomon", "Aylana radiusi", "Burchak bissektrisasi"], ans: 0 },
+                            { q: "Gipotenuza nima?", opts: ["To'g'ri burchak qarshisidagi eng uzun tomon", "Kichik tomon", "Balandlik", "Uchburchak yuzi"], ans: 0 },
+                            { q: "Kvadrat perimetri 20 sm bo'lsa, tomoni necha sm?", opts: ["5 sm", "4 sm", "10 sm", "2 sm"], ans: 0 },
+                            { q: "Teng yonli uchburchakda nechta tomon teng?", opts: ["2 ta tomoni", "3 ta tomoni", "Barcha tomoni har xil", "1 ta"], ans: 0 },
+                            { q: "Rombning barcha tomonlari o'zaro qanday?", opts: ["Teng", "Har xil", "Parallel emas", "Noma'lum"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "7. Algebraik Ifodalar",
+                        q: [
+                            { q: "(a + b)^2 ning yoyilmasini ko'rsating:", opts: ["a^2 + 2ab + b^2", "a^2 + b^2", "a^2 - b^2", "2a + 2b"], ans: 0 },
+                            { q: "(a - b)^2 ning yoyilmasi qanday?", opts: ["a^2 - 2ab + b^2", "a^2 - b^2", "a^2 + b^2", "2a - 2b"], ans: 0 },
+                            { q: "a^2 - b^2 ko'paytuvchiga ajralishi?", opts: ["(a - b)(a + b)", "(a - b)^2", "(a + b)^2", "a(a - b)"], ans: 0 },
+                            { q: "Birhadga misol keltiring:", opts: ["3x^2", "x + y", "a - b", "x^2 + 2x + 1"], ans: 0 },
+                            { q: "Ko'phadga misol ko'rsating:", opts: ["2x + 3y", "5x^2", "7abc", "10x"], ans: 0 },
+                            { q: "3x * 2x ko'paytmasini hisoblang:", opts: ["6x^2", "5x", "6x", "5x^2"], ans: 0 },
+                            { q: "4x + 5x yig'indisi nechiga teng?", opts: ["9x", "20x", "9x^2", "20x^2"], ans: 0 },
+                            { q: "x(a + b) qavsni oching:", opts: ["xa + xb", "x + a + b", "xab", "xa - xb"], ans: 0 },
+                            { q: "Ko'paytuvchiga ajrating: 2x + 4", opts: ["2(x + 2)", "x(2 + 4)", "4(x + 1)", "2x(1 + 2)"], ans: 0 },
+                            { q: "x = 2 bo'lganda 3x + 1 ning qiymati?", opts: ["7", "6", "5", "8"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "8. Funksiyalar va Grafiklar",
+                        q: [
+                            { q: "y = kx + b qanday funksiya tenglamasi?", opts: ["Chiziqli funksiya", "Kvadratik funksiya", "Ko'rsatkichli", "Trigonometrik"], ans: 0 },
+                            { q: "y = x^2 funksiyaning grafigi nima deyiladi?", opts: ["Parabola", "Giperbola", "To'g'ri chiziq", "Aylana"], ans: 0 },
+                            { q: "y = k/x funksiyaning grafigi qanday shakl?", opts: ["Giperbola", "Parabola", "To'g'ri chiziq", "Sinusoida"], ans: 0 },
+                            { q: "Koordinata tekisligida nechta chorak bor?", opts: ["4 ta chorak", "2 ta chorak", "3 ta chorak", "8 ta chorak"], ans: 0 },
+                            { q: "Gizontal o'q nima deyiladi?", opts: ["Absissalar o'qi (X)", "Ordinatalar o'qi (Y)", "Applikata", "Nol o'qi"], ans: 0 },
+                            { q: "Vertikal o'q nomi nima?", opts: ["Ordinatalar o'qi (Y)", "Absissalar o'qi (X)", "Markaz", "Burchak o'qi"], ans: 0 },
+                            { q: "Sanoq boshi koordinatalari qaysi?", opts: ["(0; 0)", "(1; 1)", "(0; 1)", "(1; 0)"], ans: 0 },
+                            { q: "y = 5 to'g'ri chiziq qaysi o'qqa parallel?", opts: ["X o'qiga", "Y o'qiga", "Ikkala o'qga ham", "Parallel emas"], ans: 0 },
+                            { q: "y = 2x funksiyada x = 3 bo'lsa, y = ?", opts: ["6", "5", "1", "8"], ans: 0 },
+                            { q: "Chiziqli funksiyaning grafigi qanday shakl?", opts: ["To'g'ri chiziq", "Egri chiziq", "Parabola", "Aylana"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "9. Ehtimollar Nazariyasi",
+                        q: [
+                            { q: "Tanga tashlanganda gerb tushish ehtimoli?", opts: ["1/2", "1", "0", "1/4"], ans: 0 },
+                            { q: "Muqarrar hodisaning ehtimolligi nechiga teng?", opts: ["1 ga teng", "0 ga teng", "0.5 ga teng", "2 ga teng"], ans: 0 },
+                            { q: "Mümkin bo'lmagan hodisa ehtimolligi?", opts: ["0 ga teng", "1 ga teng", "-1 ga teng", "0.5 ga teng"], ans: 0 },
+                            { q: "O'yin kubigi tashlanganda 6 tushish ehtimoli?", opts: ["1/6", "1/2", "6/6", "1/3"], ans: 0 },
+                            { q: "Ehtimollik qiymati qaysi orliqda bo'ladi?", opts: ["0 va 1 orasida", "-1 va 1 orasida", "1 va 10 orasida", "Har qanday son"], ans: 0 },
+                            { q: "O'yin kubigida juft son tushish ehtimoli?", opts: ["1/2 (3/6)", "1/6", "1/3", "2/3"], ans: 0 },
+                            { q: "Xaltada 3 ta oq va 2 ta qora shar bor. Oq shar chiqish ehtimoli?", opts: ["3/5", "2/5", "1/3", "1/2"], ans: 0 },
+                            { q: "Hodisa ehtimolligi formulasi qaysi?", opts: ["P = m / n", "P = m * n", "P = m + n", "P = n / m"], ans: 0 },
+                            { q: "2 ta tanga tashlanganda ikkalasi ham gerb bo'lish ehtimoli?", opts: ["1/4", "1/2", "3/4", "1/8"], ans: 0 },
+                            { q: "Barcha qarama-qarshi hodisalar ehtimolliklari yig'indisi?", opts: ["1 ga teng", "0 ga teng", "100 ga teng", "0.5 ga teng"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "10. Trigonometriya Asoslari",
+                        q: [
+                            { q: "sin(90°) ning qiymati nechiga teng?", opts: ["1", "0", "1/2", "-1"], ans: 0 },
+                            { q: "cos(0°) ning qiymati nechiga teng?", opts: ["1", "0", "-1", "1/2"], ans: 0 },
+                            { q: "sin(0°) nimaga teng?", opts: ["0", "1", "-1", "1/2"], ans: 0 },
+                            { q: "cos(90°) ning qiymatini toping:", opts: ["0", "1", "-1", "1/2"], ans: 0 },
+                            { q: "Trigonometriyaning asosiy ayniyati?", opts: ["sin^2(x) + cos^2(x) = 1", "sin(x) + cos(x) = 1", "tan(x) = cos/sin", "sin*cos=1"], ans: 0 },
+                            { q: "tg(x) nimaning nimaga nisbati?", opts: ["sin(x) / cos(x)", "cos(x) / sin(x)", "1 / sin(x)", "1 / cos(x)"], ans: 0 },
+                            { q: "ctg(x) nimaning nimaga nisbati?", opts: ["cos(x) / sin(x)", "sin(x) / cos(x)", "1 / tan(x)", "sin*cos"], ans: 0 },
+                            { q: "1 radian necha darajaga teng (taxminan)?", opts: ["57°", "180°", "90°", "360°"], ans: 0 },
+                            { q: "pi radian necha darajaga teng?", opts: ["180°", "360°", "90°", "270°"], ans: 0 },
+                            { q: "2*pi radian necha darajani tashkil etadi?", opts: ["360°", "180°", "90°", "540°"], ans: 0 }
+                        ]
+                    }
+                ]
+            },
+            ingliz: {
+                title: "Ingliz tili",
+                topics: [
+                    {
+                        title: "1. Alphabet & Greetings",
+                        q: [
+                            { q: "Choose the correct translation: 'Xayrli tong'", opts: ["Good morning", "Good night", "Good afternoon", "Hello"], ans: 0 },
+                            { q: "How do you say 'Rahmat' in English?", opts: ["Thank you", "Please", "Sorry", "Welcome"], ans: 0 },
+                            { q: "What is the English word for 'Kitob'?", opts: ["Book", "Pen", "Desk", "Pencil"], ans: 0 },
+                            { q: "Choose the correct pronoun: 'U (o'g'il bola)'", opts: ["He", "She", "It", "They"], ans: 0 },
+                            { q: "Fill in: I ___ a student.", opts: ["am", "is", "are", "be"], ans: 0 },
+                            { q: "Plural form of 'Cat':", opts: ["Cats", "Cates", "Caties", "Cat"], ans: 0 },
+                            { q: "Opposite of 'Big':", opts: ["Small", "Large", "Tall", "High"], ans: 0 },
+                            { q: "Day after Monday is:", opts: ["Tuesday", "Wednesday", "Sunday", "Friday"], ans: 0 },
+                            { q: "Which color is 'Qizil'?", opts: ["Red", "Blue", "Green", "Yellow"], ans: 0 },
+                            { q: "Choose the number: 'O'n'", opts: ["Ten", "Twelve", "Two", "Twenty"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "2. Present Simple Tense",
+                        q: [
+                            { q: "He ___ to school every day.", opts: ["goes", "go", "going", "went"], ans: 0 },
+                            { q: "They ___ football on Sundays.", opts: ["play", "plays", "playing", "played"], ans: 0 },
+                            { q: "She ___ not like coffee.", opts: ["does", "do", "is", "are"], ans: 0 },
+                            { q: "___ you live in Tashkent?", opts: ["Do", "Does", "Is", "Are"], ans: 0 },
+                            { q: "Sun ___ in the east.", opts: ["rises", "rise", "rising", "rose"], ans: 0 },
+                            { q: "I always ___ my homework in the evening.", opts: ["do", "does", "doing", "did"], ans: 0 },
+                            { q: "Cats ___ milk.", opts: ["like", "likes", "liking", "liked"], ans: 0 },
+                            { q: "Water ___ at 100 degrees Celsius.", opts: ["boils", "boil", "boiling", "boiled"], ans: 0 },
+                            { q: "My brother ___ in a bank.", opts: ["works", "work", "working", "worked"], ans: 0 },
+                            { q: "___ she speak English?", opts: ["Does", "Do", "Is", "Are"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "3. Past Simple Tense",
+                        q: [
+                            { q: "Yesterday I ___ a movie.", opts: ["watched", "watch", "watching", "watches"], ans: 0 },
+                            { q: "We ___ to London last year.", opts: ["went", "go", "going", "gone"], ans: 0 },
+                            { q: "She ___ not come to the party yesterday.", opts: ["did", "does", "do", "was"], ans: 0 },
+                            { q: "Past form of the verb 'Buy':", opts: ["Bought", "Buyed", "Buys", "Buying"], ans: 0 },
+                            { q: "Past form of 'See':", opts: ["Saw", "Seen", "Sees", "Seeing"], ans: 0 },
+                            { q: "___ you finish your work yesterday?", opts: ["Did", "Do", "Does", "Were"], ans: 0 },
+                            { q: "They ___ happy to see us.", opts: ["were", "was", "are", "be"], ans: 0 },
+                            { q: "He ___ his keys two hours ago.", opts: ["lost", "lose", "losing", "loses"], ans: 0 },
+                            { q: "I ___ a good book last week.", opts: ["read", "reading", "reads", "will read"], ans: 0 },
+                            { q: "She ___ a new dress yesterday.", opts: ["bought", "buy", "buys", "buying"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "4. Future Forms (Will & Going to)",
+                        q: [
+                            { q: "Tomorrow it ___ rain.", opts: ["will", "is", "was", "did"], ans: 0 },
+                            { q: "I think robot ___ do housework in future.", opts: ["will", "is going to", "does", "was"], ans: 0 },
+                            { q: "Look at those dark clouds! It ___ rain.", opts: ["is going to", "will", "was", "did"], ans: 0 },
+                            { q: "We ___ visit our grandmother next weekend.", opts: ["are going to", "will be", "did", "were"], ans: 0 },
+                            { q: "Future form of 'Eat':", opts: ["Will eat", "Ate", "Eaten", "Eats"], ans: 0 },
+                            { q: "___ you help me tomorrow?", opts: ["Will", "Did", "Do", "Are"], ans: 0 },
+                            { q: "I promise I ___ call you tonight.", opts: ["will", "am going to", "did", "was"], ans: 0 },
+                            { q: "They ___ buy a new house next year.", opts: ["are going to", "will to", "did", "were"], ans: 0 },
+                            { q: "Negative future form of 'Will':", opts: ["Won't (Will not)", "Don't", "Doesn't", "Didn't"], ans: 0 },
+                            { q: "She ___ be 18 years old next month.", opts: ["will", "is going to", "was", "did"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "5. Modal Verbs (Can, Must, Should)",
+                        q: [
+                            { q: "You ___ stop at the red light.", opts: ["must", "can", "may", "could"], ans: 0 },
+                            { q: "I ___ swim very well.", opts: ["can", "must", "should", "may"], ans: 0 },
+                            { q: "You look tired. You ___ go to sleep.", opts: ["should", "can", "must not", "may"], ans: 0 },
+                            { q: "___ I come in, teacher?", opts: ["May", "Must", "Should", "Will"], ans: 0 },
+                            { q: "You ___ not smoke in the hospital.", opts: ["must", "can", "should", "might"], ans: 0 },
+                            { q: "She ___ speak 3 languages fluently.", opts: ["can", "must", "should", "may"], ans: 0 },
+                            { q: "Modal verb used for giving advice?", opts: ["Should", "Must", "Can", "May"], ans: 0 },
+                            { q: "Modal verb for strong obligation?", opts: ["Must", "Can", "Should", "May"], ans: 0 },
+                            { q: "He ___ play guitar when he was 5.", opts: ["could", "can", "must", "should"], ans: 0 },
+                            { q: "You ___ eat junk food every day.", opts: ["shouldn't", "must", "can", "may"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "6. Adjectives and Comparison",
+                        q: [
+                            { q: "Elephant is ___ than dog.", opts: ["bigger", "big", "biggest", "more big"], ans: 0 },
+                            { q: "Mount Everest is the ___ mountain in the world.", opts: ["highest", "higher", "high", "more high"], ans: 0 },
+                            { q: "English is ___ than Latin.", opts: ["easier", "easy", "easiest", "more easy"], ans: 0 },
+                            { q: "This flower is the ___ in the garden.", opts: ["most beautiful", "more beautiful", "beautifuler", "beautiful"], ans: 0 },
+                            { q: "Comparative form of 'Good':", opts: ["Better", "Gooder", "Best", "More good"], ans: 0 },
+                            { q: "Superlative form of 'Good':", opts: ["Best", "Better", "Goodest", "Most good"], ans: 0 },
+                            { q: "Comparative form of 'Bad':", opts: ["Worse", "Badder", "Worst", "More bad"], ans: 0 },
+                            { q: "Superlative form of 'Bad':", opts: ["Worst", "Worse", "Baddest", "Most bad"], ans: 0 },
+                            { q: "My car is ___ expensive than yours.", opts: ["more", "most", "er", "est"], ans: 0 },
+                            { q: "Summer is ___ than winter.", opts: ["hotter", "hot", "hottest", "more hot"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "7. Passive Voice",
+                        q: [
+                            { q: "The book ___ written by Shakespeare.", opts: ["was", "were", "is writing", "write"], ans: 0 },
+                            { q: "English ___ spoken all over the world.", opts: ["is", "are", "was speaking", "were"], ans: 0 },
+                            { q: "The house ___ built in 1990.", opts: ["was", "were", "is building", "are"], ans: 0 },
+                            { q: "Newspapers ___ printed every day.", opts: ["are", "is", "was", "were"], ans: 0 },
+                            { q: "Active: 'He wrote a letter' -> Passive:", opts: ["A letter was written by him", "A letter is written", "He was writing", "Letter wrote"], ans: 0 },
+                            { q: "Active: 'They clean the room' -> Passive:", opts: ["The room is cleaned", "The room was cleaned", "Room cleaned", "They are cleaned"], ans: 0 },
+                            { q: "Formula of Passive Voice:", opts: ["Be + Past Participle (V3)", "Do + Verb", "Have + Verb", "Will + Verb"], ans: 0 },
+                            { q: "The window ___ broken yesterday.", opts: ["was", "is", "are", "were"], ans: 0 },
+                            { q: "Apple pies ___ baked by my mother every Sunday.", opts: ["are", "is", "was", "were"], ans: 0 },
+                            { q: "The car ___ repaired tomorrow.", opts: ["will be", "was", "is", "were"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "8. Conditionals (If Clauses)",
+                        q: [
+                            { q: "If it rains, I ___ stay home.", opts: ["will", "would", "am", "was"], ans: 0 },
+                            { q: "If you heat ice, it ___.", opts: ["melts", "melted", "will melt", "would melt"], ans: 0 },
+                            { q: "First Conditional structure:", opts: ["If + Present Simple, Will + Verb", "If + Past, Would", "If + Past Perfect", "If + Will, Will"], ans: 0 },
+                            { q: "If I ___ rich, I would buy a yacht.", opts: ["were", "am", "will be", "is"], ans: 0 },
+                            { q: "If she studies hard, she ___ pass the exam.", opts: ["will", "would", "did", "was"], ans: 0 },
+                            { q: "Second Conditional is used for:", opts: ["Unreal / Imaginary situations in present", "Real future", "General truth", "Past facts"], ans: 0 },
+                            { q: "If you touch fire, you ___ burned.", opts: ["get", "got", "will get", "would get"], ans: 0 },
+                            { q: "If I had time, I ___ help you.", opts: ["would", "will", "can", "am"], ans: 0 },
+                            { q: "Zero Conditional is used for:", opts: ["Scientific facts & General truths", "Future plans", "Past regret", "Dreams"], ans: 0 },
+                            { q: "If they don't hurry, they ___ miss the train.", opts: ["will", "would", "did", "were"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "9. Prepositions (In, On, At)",
+                        q: [
+                            { q: "She was born ___ 2005.", opts: ["in", "on", "at", "by"], ans: 0 },
+                            { q: "The meeting is ___ Monday.", opts: ["on", "in", "at", "for"], ans: 0 },
+                            { q: "I wake up ___ 7 o'clock.", opts: ["at", "in", "on", "by"], ans: 0 },
+                            { q: "We go to vacation ___ summer.", opts: ["in", "on", "at", "for"], ans: 0 },
+                            { q: "My birthday is ___ May 15th.", opts: ["on", "in", "at", "by"], ans: 0 },
+                            { q: "He is waiting ___ the bus stop.", opts: ["at", "in", "on", "under"], ans: 0 },
+                            { q: "There is a picture ___ the wall.", opts: ["on", "in", "at", "above"], ans: 0 },
+                            { q: "She lives ___ Tashkent.", opts: ["in", "on", "at", "to"], ans: 0 },
+                            { q: "We sleep ___ night.", opts: ["at", "in", "on", "for"], ans: 0 },
+                            { q: "I will see you ___ the morning.", opts: ["in", "on", "at", "by"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "10. Vocabulary Practice",
+                        q: [
+                            { q: "Synonym of 'Happy':", opts: ["Joyful", "Sad", "Angry", "Tired"], ans: 0 },
+                            { q: "Antonym of 'Hot':", opts: ["Cold", "Warm", "Dry", "Sunny"], ans: 0 },
+                            { q: "What is the English for 'Shifokor'?", opts: ["Doctor", "Teacher", "Driver", "Farmer"], ans: 0 },
+                            { q: "Choose the correct spelling:", opts: ["Beautiful", "Beutiful", "Beautifull", "Beautful"], ans: 0 },
+                            { q: "A person who teaches students is a ___.", opts: ["Teacher", "Doctor", "Pilot", "Chef"], ans: 0 },
+                            { q: "Synonym of 'Big':", opts: ["Huge", "Tiny", "Small", "Short"], ans: 0 },
+                            { q: "Antonym of 'Fast':", opts: ["Slow", "Quick", "Rapid", "High"], ans: 0 },
+                            { q: "A place where we buy books is a ___.", opts: ["Bookstore", "Bakery", "Hospital", "Cinema"], ans: 0 },
+                            { q: "What is 'Olmaga' in English?", opts: ["Apple", "Banana", "Orange", "Grape"], ans: 0 },
+                            { q: "Synonym of 'Smart':", opts: ["Clever", "Stupid", "Lazy", "Slow"], ans: 0 }
+                        ]
+                    }
+                ]
+            },
+            tarix: {
+                title: "Tarix",
+                topics: [
+                    {
+                        title: "1. Qadimgi Sivilizatsiyalar",
+                        q: [
+                            { q: "Misr ehromlari qaysi fir'avnlar uchun qurilgan?", opts: ["Fir'avnlar maqbarasi uchun", "Saray sifatida", "Kutubxona", "Qal'a"], ans: 0 },
+                            { q: "Eng qadimgi yozuv turi (Mixxat) qayerda paydo bo'lgan?", opts: ["Shumerda (Mesopotamiya)", "Xitoyda", "Hindistonda", "Yevropada"], ans: 0 },
+                            { q: "Buyuk Ipak Yo'li qaysi davlatlarni bog'lagan?", opts: ["Sharq va G'arbni", "Faqat Osiyoni", "Afrika va Yevropani", "Shimoliy o'lkalarni"], ans: 0 },
+                            { q: "Qadimgi Yunonistonda Olimpiya o'yinlari necha yilda bir o'tkazilgan?", opts: ["4 yilda", "2 yilda", "5 yilda", "1 yilda"], ans: 0 },
+                            { q: "Amir Temur qaysi yili tug'ilgan?", opts: ["1336-yil", "1405-yil", "1220-yil", "1501-yil"], ans: 0 },
+                            { q: "Sohibqiron Amir Temur poytaxt qilgan shahar?", opts: ["Samarqand", "Buxoro", "Toshkent", "Qarshi"], ans: 0 },
+                            { q: "Jaloliddin Manguberdi qaysi bosqinchilarga qarshi kurashgan?", opts: ["Mo'g'ullarga", "Aronlarga", "Yunonlarga", "Forslarga"], ans: 0 },
+                            { q: "Mirzo Ulug'bek qaysi soha rivojiga katta hissa qo'shgan?", opts: ["Astronomiya va Matematika", "Kimyo", "Biologiya", "Geografiya"], ans: 0 },
+                            { q: "O'zbekiston Respublikasi Mustaqillik kuni?", opts: ["1-sentyabr 1991-yil", "8-dekabr 1992-yil", "14-yanvar", "21-mart"], ans: 0 },
+                            { q: "Konstitutsiyamiz qaysi kuni qabul qilingan?", opts: ["8-dekabr", "1-sentyabr", "1-oktyabr", "21-oktyabr"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "2. Buyuk Ajdodlar Merosi",
+                        q: [
+                            { q: "'Tib qonunlari' asari muallifi kim?", opts: ["Abu Ali ibn Sino", "Al-Xorazmiy", "Beruniy", "Farobiy"], ans: 0 },
+                            { q: "Algebra faniga kim asos solgan?", opts: ["Al-Xorazmiy", "Ibn Sino", "Ulug'bek", "Navoiy"], ans: 0 },
+                            { q: "'Xamsa' asari muallifi kim?", opts: ["Alisher Navoiy", "Zahiriddin Muhammad Bobur", "Lutfiy", "Atoyi"], ans: 0 },
+                            { q: "'Boburnoma' asari muallifi kim?", opts: ["Zahiriddin Muhammad Bobur", "Navoiy", "Ibn Sino", "Ulug'bek"], ans: 0 },
+                            { q: "Hindistonda Boburiylar saltanatiga kim asos solgan?", opts: ["Bobur", "Humoyun", "Akbarshoh", "Amir Temur"], ans: 0 },
+                            { q: "Qadimgi Dunyo xaritasini va globusini yaratgan sharq allomasi?", opts: ["Abu Rayhon Beruniy", "Ibn Sino", "Xorazmiy", "Ulug'bek"], ans: 0 },
+                            { q: "Arastu (Aristotel)dan keyin 'Ikkinchi muallim' (Al-Muallim as-Soni) unvonini olgan kim?", opts: ["Abu Nasr Farobiy", "Ibn Sino", "Beruniy", "Navoiy"], ans: 0 },
+                            { q: "Hadis ilmining sultoni kim hisoblanadi?", opts: ["Imom al-Buxoriy", "Imom Termiziy", "Imom Moturidiy", "Zamahsariy"], ans: 0 },
+                            { q: "Ahmad al-Farg'oniy qaysi sohada jahonga tanilgan?", opts: ["Astronomiya va Matematika", "Tibbiyot", "Adabiyot", "Tarix"], ans: 0 },
+                            { q: "Samarqandda mashhur observatoriya (Rasadxona)ni kim qurdirgan?", opts: ["Mirzo Ulug'bek", "Amir Temur", "Bobur", "Shohruh"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "3. Amir Temur va Temuriylar Davri",
+                        q: [
+                            { q: "Amir Temur davlatining ramziy shiori nima bo'lgan?", opts: ["Kuch — adolatdadir", "Bilim — boylikdir", "Birlik — kuchdir", "G'alaba bizniki"], ans: 0 },
+                            { q: "Amir Temur qayerda taxtga o'tirgan va amir deb e'lon qilingan?", opts: ["Balg'da (1370-yil)", "Samarqandda", "Buxoroda", "Keshda"], ans: 0 },
+                            { q: "Amir Temur tug'ilgan qishloq/shahar?", opts: ["Kesh (Shahrisabz, Xoja Ilg'or)", "Samarqand", "Buxoro", "Toshkent"], ans: 0 },
+                            { q: "Amir Temurning otasining ismi kim bo'lgan?", opts: ["Amir Tarag'ay", "Amir Huseyn", "Bayqaror", "Shohruh"], ans: 0 },
+                            { q: "Amir Temur qaysi yili vafot etgan?", opts: ["1405-yil (Otrorda)", "1399-yil", "1410-yil", "1388-yil"], ans: 0 },
+                            { q: "Amir Temur tuzgan mashhur huquqiy va davlat kodeksi?", opts: ["Temur tuzuklari", "Qonunnomai Temuriy", "Buyuk Yasa", "Odobnoma"], ans: 0 },
+                            { q: "Anqara jangida (1402) Amir Temur kim ustidan g'alaba qozondi?", opts: ["Turk sultoni Boyazid Yildirim", "Toxtamshxon", "Mo'g'ul xoni", "Xitoy imperatori"], ans: 0 },
+                            { q: "Amir Temurning sevimli nabirasi, astronom olim kim?", opts: ["Mirzo Ulug'bek", "Bobur", "Shohruh", "Xalil Sulton"], ans: 0 },
+                            { q: "Temuriylar renessansi deb ataluvchi davr qaysi asrlarni o'z ichiga oladi?", opts: ["XIV-XV asrlar", "XII-XIII asrlar", "XVI-XVII asrlar", "X-XI asrlar"], ans: 0 },
+                            { q: "Shohruhiylarning asosiy poytaxti qaysi shahar bo'lgan?", opts: ["Hirot", "Samarqand", "Buxoro", "Toshkent"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "4. O'zbek Xonliklari Davri",
+                        q: [
+                            { q: "XVI-XIX asrlarda O'zbekiston hududida nechta xonlik bo'lgan?", opts: ["3 ta (Buxoro, Xiva, Qo'qon)", "2 ta", "4 ta", "1 ta"], ans: 0 },
+                            { q: "Buxoro xonligiga (keyinchalik amirligiga) kim asos solgan?", opts: ["Shayboniyxon", "Xudoyorxon", "Abulxayrxon", "Ubaydullaxon"], ans: 0 },
+                            { q: "Xiva xonligi qaysi qadimgi davlat hududida tashkil topgan?", opts: ["Xorazm", "So'g'diyona", "Baqtriya", "Parchana"], ans: 0 },
+                            { q: "Qo'qon xonligining poytaxti qaysi shahar hisoblangan?", opts: ["Qo'qon", "Marg'ilon", "Andijon", "Namangan"], ans: 0 },
+                            { q: "Buxoroda Amirlik unvoni qaysi sulola davrida joriy etildi?", opts: ["Mang'itlar sulolasi", "Shayboniylar", "Ashtarxoniylar", "Qo'ng'irotlar"], ans: 0 },
+                            { q: "Xiva xonligini boshqargan so'nggi sulola qaysi?", opts: ["Qo'ng'irotlar sulolasi", "Mang'itlar", "Minglar", "Shayboniylar"], ans: 0 },
+                            { q: "Qo'qon xonligida hukmronlik qilgan sulola?", opts: ["Minglar sulolasi", "Mang'itlar", "Qo'ng'irotlar", "Ashtarxoniylar"], ans: 0 },
+                            { q: "Buxoro xonligidagi Registon maydoni va madrasalar qurilgan davr?", opts: ["Ashtarxoniylar va Shayboniylar davri", "Temuriylar", "Xorazmshohlar", "Qoraxoniylar"], ans: 0 },
+                            { q: "Xonliklar davrida soliq yig'uvchi amaldor nima deyilgan?", opts: ["Soliqchi / Zakotchi", "Devonbegi", "Qzi", "Mingboshi"], ans: 0 },
+                            { q: "Uchala xonlik ham qaysi imperiya tomonidan bosib olindi?", opts: ["Rossiya Imperiyasi (XIX asr)", "Britaniya", "Fors imperiyasi", "Xitoy"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "5. Birinchi Jahon Urushi Tarixi",
+                        q: [
+                            { q: "Birinchi Jahon urushi qaysi yillarda bo'lib o'tgan?", opts: ["1914 - 1918-yillar", "1939 - 1945-yillar", "1900 - 1905-yillar", "1920 - 1925-yillar"], ans: 0 },
+                            { q: "Birinchi Jahon urushining boshlanish bahonasi nima bo'ldi?", opts: ["Sarayevoda Ersgersog Frans Ferdinandning o'ldirilishi", "Dengiz urushi", "Chegara buzilishi", "Iqtisodiy inqiroz"], ans: 0 },
+                            { q: "Urushda qaysi ikkita harbiy-siyosiy blok toqnash keldi?", opts: ["Antanta va Uchlar Ittifoqi", "NATO va Varshava shartnomasi", "Ittifoqchilar va O'q davlatlari", "Yevropa ligasi"], ans: 0 },
+                            { q: "Antanta blokiga qaysi davlatlar kirgan?", opts: ["Buyuk Britaniya, Fransiya, Rossiya", "Oramaniya, Avstriya, Italiya", "AQSH, Yaponiya, Xitoy", "Turkiya, Bolgariya"], ans: 0 },
+                            { q: "Birinchi Jahon urushida birinchi marta qanday yangi qurol qo'llanildi?", opts: ["Tanklar va Kimyoviy qurol (Xlor)", "Atom bombasi", "Reketalar", "Pulemyot"], ans: 0 },
+                            { q: "Urush natijasida qaysi buyuk imperiyalar parchalandi?", opts: ["Rossiya, Germaniya, Avstriya-Vengriya, Usmonli", "Faqat Britaniya", "AQSH va Yaponiya", "Fransiya"], ans: 0 },
+                            { q: "Urushni yakunlagan mashhur sulh shartnomasi qaysi?", opts: ["Versal tinchlik shartnomasi (1919)", "Yalta shartnomasi", "Parij bitimi", "Vashingotn bitimi"], ans: 0 },
+                            { q: "Birinchi Jahon urushi necha yil davom etdi?", opts: ["4 yil", "6 yil", "5 yil", "2 yil"], ans: 0 },
+                            { q: "AQSH urushga qaysi yili qo'shildi?", opts: ["1917-yil", "1914-yil", "1915-yil", "1918-yil"], ans: 0 },
+                            { q: "Urushdan so'ng tinchlikni saqlash uchun qaysi tashkilot tuzildi?", opts: ["Millatlar Ligasi", "BMT", "NATO", "Yevropa Ittifoqi"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "6. Ikkinchi Jahon Urushi Tarixi",
+                        q: [
+                            { q: "Ikkinchi Jahon urushi qaysi yillarda bo'lgan?", opts: ["1939 - 1945-yillar", "1914 - 1918-yillar", "1941 - 1945-yillar", "1935 - 1940-yillar"], ans: 0 },
+                            { q: "Urush Germaniyaning qaysi davlatga hujumi bilan boshlandi?", opts: ["Polshaga (1-sentyabr 1939)", "Fransiyaga", "SSSRga", "Boshqa davlatga"], ans: 0 },
+                            { q: "Fashistik Germaniya rahnamosi kim edi?", opts: ["Adolf Gitler", "Benito Mussolini", "Xiroxito", "Cherchill"], ans: 0 },
+                            { q: "Fashizmga qarshi 'Antigitler koalitsiyasi' yetakchilari?", opts: ["SSSR, AQSH, Buyuk Britaniya", "Germaniya, Italiya, Yaponiya", "Fransiya, Ispaniya", "Xitoy, Hindiston"], ans: 0 },
+                            { q: "Ikkinchi Jahon urushining burilish nuqtasi bo'lgan jang?", opts: ["Stalingrad jangi", "Moskva jangi", "Kursk jangi", "Berlin jangi"], ans: 0 },
+                            { q: "O'zbekistondan urushga necha kishi safarbar etilgan?", opts: ["1.5 milliondan ortiq", "500 ming", "100 ming", "3 million"], ans: 0 },
+                            { q: "Fashizm ustidan G'alaba kuni qachon nishonlanadi?", opts: ["9-may (1945)", "1-sentyabr", "22-iyun", "2-sentyabr"], ans: 0 },
+                            { q: "1945-yil avgustda AQSH Yaponiyaning qaysi shaharlariga atom bombasi tashladi?", opts: ["Xirosima va Nagasaki", "Tokio va Kioto", "Osaka va Kopga", "Yokogama"], ans: 0 },
+                            { q: "Ikkinchi Jahon urushi rasman qachon tugadi?", opts: ["1945-yil 2-sentyabr", "1945-yil 9-may", "1944-yil", "1946-yil"], ans: 0 },
+                            { q: "Urushdan so'ng xalqaro xavfsizlikni ta'minlash uchun qaysi tashkilot tuzildi?", opts: ["BMT (Birllashgan Millatlar Tashkiloti)", "Millatlar ligasi", "NATO", "Yevroittifoq"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "7. Mustaqil O'zbekiston Tarixi",
+                        q: [
+                            { q: "O'zbekiston Respublikasining Mustaqilligi qachon e'lon qilingan?", opts: ["1991-yil 31-avgust (1-sentyabr bayram)", "1992-yil 8-dekabr", "1990-yil 20-iyun", "1991-yil 8-dekabr"], ans: 0 },
+                            { q: "O'zbekiston Respublikasining Birinchi Prezidenti kim?", opts: ["Islom Karimov", "Shavkat Mirziyoyev", "Sharof Rashidov", "Yulduz Usmonova"], ans: 0 },
+                            { q: "O'zbekiston Respublikasi Konstitutsiyasi qachon qabul qilingan?", opts: ["1992-yil 8-dekabr", "1991-yil 1-sentyabr", "1993-yil 18-noyabr", "1992-yil 2-mart"], ans: 0 },
+                            { q: "O'zbekiston Respublikasining Davlat Bayrog'i qachon qabul qilingan?", opts: ["1991-yil 18-noyabr", "1992-yil 2-iyul", "1992-yil 10-dekabr", "1991-yil 1-sentyabr"], ans: 0 },
+                            { q: "O'zbekiston Respublikasining Davlat Gerbi qachon qabul qilindi?", opts: ["1992-yil 2-iyul", "1991-yil 18-noyabr", "1992-yil 8-dekabr", "1993-yil"], ans: 0 },
+                            { q: "O'zbekiston Respublikasining Davlat Madhiyasi qachon tasdiqlangan?", opts: ["1992-yil 10-dekabr", "1991-yil 18-noyabr", "1992-yil 2-iyul", "1994-yil"], ans: 0 },
+                            { q: "O'zbekiston BMTga qachon a'zo bo'lib kirdi?", opts: ["1992-yil 2-mart", "1991-yil 1-sentyabr", "1993-yil 10-yanvar", "1995-yil"], ans: 0 },
+                            { q: "Milliy valyutamiz — So'm qachon muomalaga kiritilgan?", opts: ["1994-yil 1-iyul", "1991-yil", "1992-yil", "1993-yil"], ans: 0 },
+                            { q: "O'zbekiston Respublikasining Hozirgi Prezidenti kim?", opts: ["Shavkat Mirziyoyev", "Islom Karimov", "Sharof Rashidov", "Abdulla Aripov"], ans: 0 },
+                            { q: "Davlat tili haqidagi Qonun qachon qabul qilingan?", opts: ["1989-yil 21-oktyabr", "1991-yil 1-sentyabr", "1992-yil 8-dekabr", "1990-yil"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "8. Jahon Sivilizatsiyalari va Madaniyati",
+                        q: [
+                            { q: "Dunyodagi Yetti Mo'jizadan biri bo'lgan osma bog'lar qayerda qurilgan?", opts: ["Bobilda (Semiramida osma bog'lari)", "Misrda", "Rimda", "Yunonistonda"], ans: 0 },
+                            { q: "Qadimgi Rimdagi mashhur amfiteatr (Gladiatorlar maydoni)?", opts: ["Kolizey", "Partenon", "Panteon", "Akropol"], ans: 0 },
+                            { q: "Demokratiya tushunchasi va tizimi birinchi marta qayerda paydo bo'lgan?", opts: ["Qadimgi Afinada (Yunoniston)", "Rimda", "Misrda", "Xitoyda"], ans: 0 },
+                            { q: "Qog'oz, Kompas va Porox birinchi marta qaysi mamlakatda kashf etilgan?", opts: ["Xitoyda", "Hindistonda", "Misrda", "Iroqda"], ans: 0 },
+                            { q: "Hindistondagi mashhur me'morchilik obidasi — Taj-Mahalni kim qurdorgan?", opts: ["Shoh Jahon", "Bobur", "Akbarshoh", "Humoyun"], ans: 0 },
+                            { q: "Renessans (Uyg'onish davri) vatani qaysi mamlakat hisoblanadi?", opts: ["Italiya", "Fransiya", "Angliya", "Germaniya"], ans: 0 },
+                            { q: "'Mona Liza' (Jokonda) asarining muallifi kim?", opts: ["Leonardo da Vinchi", "Mikelandjelo", "Rafael", "Titsian"], ans: 0 },
+                            { q: "Ilk bosma kitob va bosmaxona stanogini kashf etgan nemis ixtirochisi?", opts: ["Iohann Gutenberg", "Galiley", "Kopernik", "Nyuton"], ans: 0 },
+                            { q: "Qadimgi Misr yozuvlari nima deb atalgan?", opts: ["Ierogliflar", "Mixxat", "Lotin", "Kirill"], ans: 0 },
+                            { q: "Afinadagi ma'buda Afinaga bag'ishlab qurilgan bosh ibodatxona?", opts: ["Partenon", "Kolizey", "Zevs ibodatxonasi", "Piramida"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "9. Tarixiy Obidalar va Shaharlar",
+                        q: [
+                            { q: "Registon maydoni qaysi shaharda joylashgan?", opts: ["Samarqand", "Buxoro", "Xiva", "Qarshi"], ans: 0 },
+                            { q: "Ichan-Qal'a me'moriy ansambli qaysi shaharda?", opts: ["Xiva", "Buxoro", "Samarqand", "Toshkent"], ans: 0 },
+                            { q: "Poyi Kalon majmuasi va Minora qaysi shaharda joylashgan?", opts: ["Buxoro", "Samarqand", "Qo'qon", "Termiz"], ans: 0 },
+                            { q: "Ark qal'asi qaysi shahar hukmdorlarining qarorgohi bo'lgan?", opts: ["Buxoro", "Xiva", "Samarqand", "Qarshi"], ans: 0 },
+                            { q: "Shahrisabzdagi Amir Temur tomonidan qurdirilgan ulkan saroy?", opts: ["Oqsaroy", "Ko'ksaroy", "Chor Minor", "Xudoyorxon saroyi"], ans: 0 },
+                            { q: "Xudoyorxon saroyi qaysi shaharda joylashgan?", opts: ["Qo'qon", "Marg'ilon", "Andijon", "Namangan"], ans: 0 },
+                            { q: "Shohi Zinda maqbaralar majmuasi qaysi shaharda?", opts: ["Samarqand", "Buxoro", "Toshkent", "Termiz"], ans: 0 },
+                            { q: "Chor Minor madrasasi qaysi shaharda joylashgan?", opts: ["Buxoro", "Xiva", "Samarqand", "Toshkent"], ans: 0 },
+                            { q: "Qadimgi Fayoztepa va Qoratepa buddaviylik ibodatxonalari qayerda?", opts: ["Termizda", "Samarqandda", "Toshkentda", "Farg'onada"], ans: 0 },
+                            { q: "UNESCO Butunjahon merosi ro'yxatiga kiritilgan birinchi o'zbek shahri?", opts: ["Xiva (Ichan-Qal'a)", "Samarqand", "Buxoro", "Shahrisabz"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "10. Xalqaro Munosabatlar va Shartnomalar",
+                        q: [
+                            { q: "BMT (Birllashgan Millatlar Tashkiloti) bosh qarorgohi qayerda joylashgan?", opts: ["Nyu-Yorkda (AQSH)", "Jenevada", "Parijda", "Londaonda"], ans: 0 },
+                            { q: "BMT Xavfsizlik Kengashining doimiy a'zolari nechtani tashkil etadi?", opts: ["5 ta (AQSH, Rossiya, Xitoy, Buyuk Britaniya, Fransiya)", "10 ta", "15 ta", "7 ta"], ans: 0 },
+                            { q: "Inson huquqlari umumjahon deklaratsiyasi qachon qabul qilingan?", opts: ["1948-yil 10-dekabr", "1945-yil", "1950-yil", "1991-yil"], ans: 0 },
+                            { q: "Yevropa Ittifoqi (YeI) valyutasi nima?", opts: ["Yevro (EUR)", "Dollar", "Funt sterling", "Marka"], ans: 0 },
+                            { q: "SHXT (Shanxay Hamkorlik Tashkiloti)ga O'zbekiston qachon qo'shildi?", opts: ["2001-yil", "1996-yil", "2005-yil", "2010-yil"], ans: 0 },
+                            { q: "Diplomatik vakil yoki elchi qarorgohi nima deyiladi?", opts: ["Elchixona / Konsullik", "Vazirlik", "Saray", "Bosh qarorgoh"], ans: 0 },
+                            { q: "Xalqaro Qizil Xoch tashkiloti bosh qarorgohi qaysi shaharda?", opts: ["Jeneva (Shveysariya)", "Parij", "Vashington", "Rim"], ans: 0 },
+                            { q: "O'zbekiston Respublikasi Tashqi ishlar vazirligi nima bilan shug'ullanadi?", opts: ["Xalqaro va diplomatik aloqalar bilan", "Ichki tartib bilan", "Moliya bilan", "Sog'liqni saqlash bilan"], ans: 0 },
+                            { q: "Ikki yoki undan ortiq davlatlar o'rtasidagi rasmiy kelishuv?", opts: ["Xalqaro Shartnoma / Bitim", "Qonun", "Farmoyish", "Burch"], ans: 0 },
+                            { q: "Dunyo mamlakatlari o'rtasida tinchlikni saqlash faoliyati nima deyiladi?", opts: ["Diplomatiya", "Siyosat", "Iqtisodiyot", "Demografiya"], ans: 0 }
+                        ]
+                    }
+                ]
+            },
+            tabiiy_fan: {
+                title: "Tabiiy fan",
+                topics: [
+                    {
+                        title: "1. Tirik va Nointellektual Tabiat",
+                        q: [
+                            { q: "Tirik organizmlarning eng kichik birligi nima?", opts: ["Hujayra", "A'zo", "Toqima", "Organizm"], ans: 0 },
+                            { q: "Fotosintez jarayonida o'simliklar nimani ajratib chiqaradi?", opts: ["Kislorod", "Karbonat angidrid", "Azot", "Vodorod"], ans: 0 },
+                            { q: "Quyosh sistemasida nechta planeta bor?", opts: ["8 ta", "9 ta", "7 ta", "10 ta"], ans: 0 },
+                            { q: "Yerga eng yaqin yulduz qaysi?", opts: ["Quyosh", "Sirus", "Lira", "Vesta"], ans: 0 },
+                            { q: "Suvning kimyoviy formulasi qanday?", opts: ["H2O", "CO2", "O2", "NaCl"], ans: 0 },
+                            { q: "Inson tanasida nechta suyak bor (katta yoshli)?", opts: ["206 ta", "150 ta", "300 ta", "100 ta"], ans: 0 },
+                            { q: "Yer atmosferasida eng ko'p tarqalgan gaz?", opts: ["Azot (78%)", "Kislorod", "Karbonat angidrid", "Argon"], ans: 0 },
+                            { q: "Muzning suvga aylanish jarayoni nima deyiladi?", opts: ["Erish", "Bug'lanish", "Kondensatsiya", "Muzlash"], ans: 0 },
+                            { q: "Yerning ustki qattiq qatlami nima deyiladi?", opts: ["Litosfera", "Gidrosfera", "Atmosfera", "Biosfera"], ans: 0 },
+                            { q: "Yurakning asosiy vazifasi nima?", opts: ["Qonni haydash", "Ovqat hazm qilish", "Nafas olish", "Harakatlanish"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "2. O'simliklar Dunyosi (Botanika)",
+                        q: [
+                            { q: "O'simlikning suv va minerallarni so'radigan a'zosi?", opts: ["Ildiz", "Poya", "Barg", "Gul"], ans: 0 },
+                            { q: "O'simlikda fotosintez asosan qaysi organida kechadi?", opts: ["Bargda", "Ildizda", "Poyada", "Gulda"], ans: 0 },
+                            { q: "Gulli o'simliklarning ko'payish organi nima?", opts: ["Gul va Urug'", "Ildiz", "Barg", "Poya"], ans: 0 },
+                            { q: "Daraxt tanasini ushlab turuvchi va oziq o'tkazuvchi qismi?", opts: ["Poya (Tana)", "Ildiz", "Barg", "Meva"], ans: 0 },
+                            { q: "O'simliklarga yashil rang beruvchi pigment?", opts: ["Xlorofill", "Karotin", "Xromoplast", "Globin"], ans: 0 },
+                            { q: "Madaniylashtirilgan o'simlikka misol keltiring:", opts: ["Bug'doy", "Yantoq", "Qalamir", "Ajriq"], ans: 0 },
+                            { q: "O'simliklar kislorodni qachon ajratadi?", opts: ["Kunduzi (yorug'likda)", "Kechasi", "Faqat qishda", "Har doim"], ans: 0 },
+                            { q: "Suvda va suv bo'ylarida o'sadigan o me'moriy o'simlik?", opts: ["Qamish", "Yantoq", "Saksovul", "Lola"], ans: 0 },
+                            { q: "Cho'lda o'suvchi va chuqur ildiz otuvchi o'simlik?", opts: ["Yantoq / Saksovul", "Nufar", "Tol", "Terak"], ans: 0 },
+                            { q: "Urug'ning unib chiqishi uchun nima kerak?", opts: ["Suv, Havo va Issiqlik", "Faqat yorug'lik", "Faqat tuz", "Faqat shamol"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "3. Hayvonot Dunyosi (Zoologiya)",
+                        q: [
+                            { q: "Sutemizuvchi hayvonni ko'rsating:", opts: ["Del'fin", "Akula", "Burgut", "Kaltakesak"], ans: 0 },
+                            { q: "Uchmaydigan lekin tez yuguradigan qush?", opts: ["Tuyaqush", "Oling", "Qarshig'ay", "Laylak"], ans: 0 },
+                            { q: "Suvda ham quruqlikda yashovchi hayvon (Amfibiya)?", opts: ["O'rgimchak / Qurbaqa", "Baliq", "Ilon", "Quyon"], ans: 0 },
+                            { q: "Sovuqqonli hayvonni toping:", opts: ["Kaltakesak (O'rmalovchi)", "Aiq", "Bo'ri", "Qush"], ans: 0 },
+                            { q: "Yirtqich hayvonni ko'rsating:", opts: ["Sher / Yo'lbars", "Tuya", "Quyon", "Kiyik"], ans: 0 },
+                            { q: "O'txur (o'simlikxur) hayvonni toping:", opts: ["Kiyik / Tuya", "Bo'ri", "Tulkisi", "Aiq"], ans: 0 },
+                            { q: "Hasharotlarga nechtadan oyoq xos?", opts: ["6 ta (3 juft)", "8 ta", "4 ta", "10 ta"], ans: 0 },
+                            { q: "O'rgimchaksimonlarda nechta oyoq bor?", opts: ["8 ta (4 juft)", "6 ta", "10 ta", "12 ta"], ans: 0 },
+                            { q: "Baliqlarning nafas olish organi nima?", opts: ["OJabralar (Jabra)", "O'pka", "Tana yuzasi", "Poyalari"], ans: 0 },
+                            { q: "Eng katta sutemizuvchi hayvon qaysi?", opts: ["Ko'k kit", "Fil", "Jirafa", "Akula"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "4. Odam Anatomiyasi va Salomatlik",
+                        q: [
+                            { q: "Inson nafas olish tizimining bosh organi?", opts: ["O'pka", "Yurak", "Oshqozon", "Jigar"], ans: 0 },
+                            { q: "Oziq-ovqatni hazm qiluvchi asosiy organ?", opts: ["Oshqozon va Ichaklar", "O'pka", "Yurak", "Bosh miya"], ans: 0 },
+                            { q: "Inson organizmidagi 'Filtr' vazifasini bajaruvchi organ?", opts: ["Buyraklar va Jigar", "Yurak", "O'pka", "Suyaklar"], ans: 0 },
+                            { q: "Nerv tizimining markaziy organi qaysi?", opts: ["Bosh miya va Orqa miya", "Yurak", "Muskullar", "Oshqozon"], ans: 0 },
+                            { q: "Qonni butun tanaga haydab beruvchi muskul organ?", opts: ["Yurak", "O'pka", "Oshqozon", "Jigar"], ans: 0 },
+                            { q: "Qizil qon tanachalari nima deyiladi?", opts: ["Eritrotsitlar", "Leykotsitlar", "Trombotsitlar", "Plazma"], ans: 0 },
+                            { q: "Organizmni kasallik va mikroblardan himoya qiluvchi qon hujayralari?", opts: ["Leykotsitlar (Immunitet)", "Eritrotsitlar", "Trombotsitlar", "Globin"], ans: 0 },
+                            { q: "Qonning ivishini ta'minlovchi hujayralar?", opts: ["Trombotsitlar", "Leykotsitlar", "Eritrotsitlar", "Gormonlar"], ans: 0 },
+                            { q: "Inson sezgi a'zolari nechta?", opts: ["5 ta (Ko'z, Quloq, Burun, Til, Teri)", "4 ta", "6 ta", "3 ta"], ans: 0 },
+                            { q: "Sog'lom turmush tarzi uchun nima muhim?", opts: ["To'g'ri ovqatlanish va Sport", "Kam harakat", "Chekish", "Uyqusizlik"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "5. Yer va Koinot Tizimi",
+                        q: [
+                            { q: "Yerning yagona tabiiy yo'ldoshi qaysi?", opts: ["Oy (Moon)", "Quyosh", "Mars", "Venera"], ans: 0 },
+                            { q: "Quyoshga eng yaqin joylashgan planeta?", opts: ["Merkuriy", "Venera", "Yer", "Mars"], ans: 0 },
+                            { q: "Quyosh sistemasidagi eng katta planeta?", opts: ["Yupiter", "Saturn", "Uran", "Neptun"], ans: 0 },
+                            { q: "'Qizil planeta' deb qaysi planeta ataladi?", opts: ["Mars", "Venera", "Merkuriy", "Saturn"], ans: 0 },
+                            { q: "Yer o'z o'qi atrofida bir marta aylanishi qancha vaqt oladi?", opts: ["24 soat (1 sutka)", "365 kun", "30 kun", "12 soat"], ans: 0 },
+                            { q: "Yer Quyosh atrofida bir marta to'liq aylanishi qancha?", opts: ["365 kun 6 soat (1 yil)", "24 soat", "1 oy", "100 kun"], ans: 0 },
+                            { q: "Fasllarning almashinishiga nima sabab bo'ladi?", opts: ["Yerning Quyosh atrofida aylanishi va o me'moriy og'ish", "Oyni aylanishi", "Shamol", "Kun va tun"], ans: 0 },
+                            { q: "Kun va tunning almashinishi sababi?", opts: ["Yerning o'z o'qi atrofida aylanishi", "Quyoshning aylanishi", "Oyni to'lishi", "Bulutlar"], ans: 0 },
+                            { q: "Atrofida halqasi yaqqol ko'rinadigan planeta?", opts: ["Saturn", "Yupiter", "Mars", "Merkuriy"], ans: 0 },
+                            { q: "Koinotni o'rganadigan fan nima deyiladi?", opts: ["Astronomiya", "Biologiya", "Geografiya", "Fizika"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "6. Ob-havo va Iqlim Hodisalari",
+                        q: [
+                            { q: "Atmosfera bosimini o'lchaydigan asbob?", opts: ["Barometr", "Termometr", "Gigrometr", "Anemometr"], ans: 0 },
+                            { q: "Havo haroratini o'lchovchi asbob?", opts: ["Termometr", "Barometr", "Kompas", "Seysmograf"], ans: 0 },
+                            { q: "Havo namligini o'lchaydigan qurilma?", opts: ["Gigrometr", "Barometr", "Termometr", "Ruler"], ans: 0 },
+                            { q: "Shamol tezligini va yo'nalishini o'lchovchi asbob?", opts: ["Anemometr / Flyuger", "Barometr", "Gigrometr", "Termometr"], ans: 0 },
+                            { q: "Suv bug'ining havoda sovub tomchiga aylanishi?", opts: ["Kondensatsiya", "Bug'lanish", "Erish", "Muzlash"], ans: 0 },
+                            { q: "Havo massalarining gorizontal harakati nima deyiladi?", opts: ["Shamol", "Yog'in", "Tuman", "Bulut"], ans: 0 },
+                            { q: "Suyuqlikning gaz holatiga o'tishi nima deyiladi?", opts: ["Bug'lanish", "Kondensatsiya", "Sublimatsiya", "Erish"], ans: 0 },
+                            { q: "Yomg'ir, qor va do'l nima hisoblanadi?", opts: ["Atmosfera yog'inlari", "Shamol", "Tuman", "Iqlim"], ans: 0 },
+                            { q: "Muayyan joydagi ob-havoning ko'p yillik rejimi?", opts: ["Iqlim", "Ob-havo", "Harorat", "Mavsum"], ans: 0 },
+                            { q: "Yerni zararli ultrabinafsha nurlardan himoya qiluvchi qatlam?", opts: ["Ozon qatlami", "Troposfera", "Mantar", "Ionosfera"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "7. Ekologiya va Muhofaza",
+                        q: [
+                            { q: "Qizil kitobga qanday o'simlik va hayvonlar kiritiladi?", opts: ["Yo'qolib borayotgan va kamyob turlar", "Uy hayvonlari", "Eng ko'p tarqalganlar", "O'rmonlar"], ans: 0 },
+                            { q: "Tirik organizmlarning bir-biri va muhit bilan munosabatini o'rganuvchi fan?", opts: ["Ekologiya", "Biologiya", "Geografiya", "Anatomiya"], ans: 0 },
+                            { q: "Tabiatni muhofaza qilishning eng yuqori shakli bo'lgan hudud?", opts: ["Qo'riqxona (Zapovednik)", "Park", "BOG'", "Ekin maydoni"], ans: 0 },
+                            { q: "Atrof-muhitning chiqindilar bilan buzilishi nima deyiladi?", opts: ["Ifloslanish (Ekologik muammo)", "Eroziya", "Evolyutsiya", "Fotosintez"], ans: 0 },
+                            { q: "Atmosferada karbonat angidrid ko'payishi natijasidagi muammo?", opts: ["Issiqxona effekti (Global isish)", "Ozon teshigi", "QirG'oq yemirilishi", "Zilzila"], ans: 0 },
+                            { q: "Daraxtlar va o'rmonlarni kesish nimaga olib keladi?", opts: ["Eroziya va kislorod kamayishiga", "Suv ko'payishiga", "Havoni tozalashga", "Foydaga"], ans: 0 },
+                            { q: "Qayta ishlanmaydigan va tabiatda uzoq chiriydigan chiqindi?", opts: ["Plastmassa va Plastik", "Qog'oz", "Yog'och", "Oziq-ovqat"], ans: 0 },
+                            { q: "O'zbekistondagi eng katta ekologik fojia qaysi?", opts: ["Orol dengizining qurishi", "Zarafshon daryosi", "Toshkent tumani", "Farg'ona vodiysi"], ans: 0 },
+                            { q: "Mintaqaviy biologik xilma-xillikni saqlash nega muhim?", opts: ["Tabiiy muvozanatni saqlash uchun", "Chiroyli bo'lishi uchun", "Shunchaki", "Foydasi yo'q"], ans: 0 },
+                            { q: "Muqobil (Yashil) energiya manbalarini ko'rsating:", opts: ["Quyosh, Shamol, Suv energiyasi", "Ko'mir va Gaz", "Neft", "Yog'och"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "8. Modda va Energetika",
+                        q: [
+                            { q: "Moddaning uchta asosiy fizik holati?", opts: ["Qattiq, Suyuq, Gaz", "Issiq, Sovuq, Muz", "Og'ir, Yengil, Zich", "Atom, Molekula, Ion"], ans: 0 },
+                            { q: "Atrofdagi barcha narsalar nimadan tashkil topgan?", opts: ["Modda va Maydondan (Atoms)", "Faqat suvdan", "Havoriy", "Nurdan"], ans: 0 },
+                            { q: "Moddaning kimyoviy xossalarini saqlab qoluvchi eng kichik zarracha?", opts: ["Molekula", "Atom", "Ektron", "Yadro"], ans: 0 },
+                            { q: "Atom nimadan tashkil topgan?", opts: ["Yadro (Proton, Neytron) va Elektronlar", "Faqat suvdan", "Hujayradan", "Muzdan"], ans: 0 },
+                            { q: "Quyoshdan yerga keladigan energiya turi?", opts: ["Yorug'lik va Issiqlik energiyasi", "Elektr", "Kimyoviy", "Atom"], ans: 0 },
+                            { q: "Harakatlanayotgan jism ega bo'lgan energiya?", opts: ["Kinetik energiya", "Potensial energiya", "Issiqlik", "Yadro"], ans: 0 },
+                            { q: "Balandlikda turgan jism ega bo'lgan energiya?", opts: ["Potensial energiya", "Kinetik energiya", "Elektr", "Nur"], ans: 0 },
+                            { q: "Energiya saqlanish qonuni nimani bildiradi?", opts: ["Energiya yo'qdan bor bo'lmaydi va yo'qolmaydi, faqat o'zgaradi", "Yo'qolib ketadi", "Har doim kamayadi", "Kopayadi"], ans: 0 },
+                            { q: "Elektr tokini yaxshi o'tkazuvchi modda?", opts: ["Metallar (Mis, Aluminiy)", "Yog'och", "Plastmassa", "Rassom"], ans: 0 },
+                            { q: "Elektr tokini o'tkazmaydigan modda (Izolyator)?", opts: ["Rina, Plastmassa, Yog'och", "Mis", "Temir", "Suv"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "9. Geografik Materik va Okeanlar",
+                        q: [
+                            { q: "Yerdagi eng katta materik qaysi?", opts: ["Yevroosiyo", "Afrika", "Shimoliy Amerika", "Antarktida"], ans: 0 },
+                            { q: "Yerdagi eng issiq materik hisoblanadi?", opts: ["Afrika", "Avstraliya", "Janubiy Amerika", "Yevroosiyo"], ans: 0 },
+                            { q: "Faqat muz va qor bilan qoplangan materik?", opts: ["Antarktida", "Avstraliya", "Shimoliy Amerika", "Yevropa"], ans: 0 },
+                            { q: "Eng kichik materik qaysi?", opts: ["Avstraliya", "Antarktida", "Janubiy Amerika", "Yevropa"], ans: 0 },
+                            { q: "Dunyodagi eng katta okean qaysi?", opts: ["Tinch okeani", "Atlantika okeani", "Hind okeani", "Shimoliy Muz okeani"], ans: 0 },
+                            { q: "Dunyodagi eng chuqur botiq (Mariana botiqligi) qaysi okeanda?", opts: ["Tinch okeanida", "Atlantikada", "Hind okeanida", "Muz okeanida"], ans: 0 },
+                            { q: "Dunyodagi eng uzun daryo qaysi?", opts: ["Nil daryosi (Afrika)", "Amazonka", "Yanszi", "Amu daryo"], ans: 0 },
+                            { q: "Dunyodagi eng sersuv daryo qaysi?", opts: ["Amazonka (Janubiy Amerika)", "Nil", "Missisipi", "Kongo"], ans: 0 },
+                            { q: "Dunyodagi eng baland cho'qqi (Everest / Jonolungma)?", opts: ["Gimalay tog'larida (8848m)", "Alp tog'larida", "And tog'larida", "Tyan-Shan"], ans: 0 },
+                            { q: "O'zbekiston qaysi materikda joylashgan?", opts: ["Yevroosiyo materigida", "Osiyoda", "Afrikada", "Janubiy Amerikada"], ans: 0 }
+                        ]
+                    },
+                    {
+                        title: "10. Fizik va Kimyoviy O'zgarishlar",
+                        q: [
+                            { q: "Muzning erib suvga aylanishi qanday hodisa?", opts: ["Fizik hodisa", "Kimyoviy hodisa", "Biologik", "Geologik"], ans: 0 },
+                            { q: "Qog'ozning yonishi va kulga aylanishi qanday hodisa?", opts: ["Kimyoviy hodisa", "Fizik hodisa", "Mexanik", "Geografik"], ans: 0 },
+                            { q: "Suyuqlikning qaynab bug'ga aylanishi?", opts: ["Fizik hodisa", "Kimyoviy hodisa", "Atomik", "Yadroviy"], ans: 0 },
+                            { q: "Temirning zanglashi qanday jarayon?", opts: ["Kimyoviy hodisa (Oksidlanish)", "Fizik hodisa", "Mexanik", "Statik"], ans: 0 },
+                            { q: "Oyna sinib bo'laklarga bo'linishi qanday o'zgarish?", opts: ["Fizik hodisa", "Kimyoviy hodisa", "Atomiy", "Biologik"], ans: 0 },
+                            { q: "Sutning qatiqqa aylanishi (achishi) qanday hodisa?", opts: ["Kimyoviy (Biokimyoviy)", "Fizik hodisa", "Mexanik", "Statik"], ans: 0 },
+                            { q: "Kimyoviy reaksiyaning asosiy belgisi nimada?", opts: ["Yangi modda va rang/gaz hosil bo'lishi", "Shakli o'zgarishi", "Joyi o'zgarishi", "Hajmi o'zgarishi"], ans: 0 },
+                            { q: "Fizik hodisada moddaning nimalari o'zgarmaydi?", opts: ["Kimyoviy tarkibi o'zgarmaydi", "Shakli", "Agregat holati", "Hajmi"], ans: 0 },
+                            { q: "Tuzning suvda erib ketishi qanday jarayon?", opts: ["Fizik-kimyoviy jarayon", "Faqat kimyoviy", "Faqat mexanik", "Atomiy"], ans: 0 },
+                            { q: "Nafas olganda kislorodning o'pka va qonda birikishi?", opts: ["Kimyoviy jarayon", "Fizik jarayon", "Mexanik", "Geografik"], ans: 0 }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentTopicTitle = '';
+        let currentQuestions = [];
+        let userAnswers = [];
+        let qIndex = 0;
+        let userScore = 0;
+        let selectedOpt = null;
+        let timerInterval = null;
+        let timeLeft = 60;
+        let fiftyFiftyUsed = false;
+        let extraTimeUsed = false;
+        let skipUsed = false;
+
+        let stats = { tests: 0, best: 0, rank: 'Talaba' };
+
+        window.onload = function() {
+            loadTheme();
+            loadStats();
+            const savedLang = localStorage.getItem('db_lang') || 'uz';
+            document.getElementById('langSelect').value = savedLang;
+            changeLanguage();
+            checkAuth();
+        };
+
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function checkAuth() {
+            const fname = localStorage.getItem('db_fname');
+            const lname = localStorage.getItem('db_lname');
+            if (fname && lname) {
+                document.getElementById('displayUserName').innerText = `${fname} ${lname}`;
+                loadSubjects();
+                navigateTo('page-home');
+            } else {
+                navigateTo('page-login');
+            }
+        }
+
+        function submitLogin() {
+            const fname = document.getElementById('inputFname').value.trim();
+            const lname = document.getElementById('inputLname').value.trim();
+            if (!fname || !lname) {
+                alert("Iltimos, ismingiz va familiyangizni to'liq kiriting!");
+                return;
+            }
+            localStorage.setItem('db_fname', fname);
+            localStorage.setItem('db_lname', lname);
+            checkAuth();
+        }
+
+        function logoutUser() {
+            if(confirm("Profil ma'lumotlarini o'zgartirmoqchimisiz?")) {
+                localStorage.removeItem('db_fname');
+                localStorage.removeItem('db_lname');
+                checkAuth();
+            }
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            document.getElementById('themeBtn').innerText = next === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem('db_theme', next);
+        }
+
+        function loadTheme() {
+            const saved = localStorage.getItem('db_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            document.getElementById('themeBtn').innerText = saved === 'dark' ? '☀️' : '🌙';
+        }
+
+        function loadStats() {
+            const saved = localStorage.getItem('db_stats');
+            if (saved) stats = JSON.parse(saved);
+            document.getElementById('stat-tests').innerText = stats.tests;
+            document.getElementById('stat-best').innerText = stats.best + "%";
+            document.getElementById('stat-rank').innerText = stats.rank || 'Talaba';
+        }
+
+        function updateStats(percent) {
+            stats.tests += 1;
+            if (percent > stats.best) stats.best = percent;
+            if (stats.tests > 15 && stats.best >= 90) stats.rank = 'Professor 🎓';
+            else if (stats.tests > 5 && stats.best >= 75) stats.rank = 'Ekspert 🌟';
+            else stats.rank = 'Talaba 📘';
+            localStorage.setItem('db_stats', JSON.stringify(stats));
+            loadStats();
+        }
+
+        function loadSubjects() {
+            const container = document.getElementById('subjectsList');
+            container.innerHTML = '';
+            Object.keys(db).forEach(key => {
+                const sub = db[key];
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.innerHTML = `<div class="item-title">${sub.title}</div><div class="item-desc">${sub.topics.length} ta mavzu</div>`;
+                card.onclick = () => selectSubject(sub);
+                container.appendChild(card);
+            });
+        }
+
+        function selectSubject(sub) {
+            document.getElementById('selectedSubjectPill').innerText = sub.title.toUpperCase();
+            const container = document.getElementById('topicsList');
+            container.innerHTML = '';
+            sub.topics.forEach(top => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.innerHTML = `<div class="item-title">${top.title}</div><div class="item-desc">10 ta savol</div>`;
+                card.onclick = () => startQuiz(top);
+                container.appendChild(card);
+            });
+            navigateTo('page-topics');
+        }
+
+        function startQuiz(topic) {
+            currentTopicTitle = topic.title;
+            currentQuestions = [...topic.q].map(qItem => {
+                const shuffledOpts = [...qItem.opts].sort(() => Math.random() - 0.5);
+                const newCorrectIdx = shuffledOpts.indexOf(qItem.opts[qItem.ans]);
+                return { q: qItem.q, opts: shuffledOpts, ans: newCorrectIdx };
+            });
+            userAnswers = [];
+            qIndex = 0;
+            userScore = 0;
+            fiftyFiftyUsed = false;
+            extraTimeUsed = false;
+            skipUsed = false;
+
+            document.getElementById('fiftyFiftyBtn').disabled = false;
+            document.getElementById('extraTimeBtn').disabled = false;
+            document.getElementById('skipBtn').disabled = false;
+
+            document.getElementById('quizTopicTitle').innerText = topic.title;
+            navigateTo('page-quiz');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            selectedOpt = null;
+            clearInterval(timerInterval);
+            timeLeft = 60;
+            updateTimerDisplay();
+
+            const progPercent = Math.round((qIndex / currentQuestions.length) * 100);
+            document.getElementById('quizProgressBar').style.width = progPercent + "%";
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    nextQuestion();
+                }
+            }, 1000);
+
+            const q = currentQuestions[qIndex];
+            document.getElementById('quizQuestion').innerText = `${qIndex + 1}-savol / 10: ${q.q}`;
+
+            const optsDiv = document.getElementById('quizOptions');
+            optsDiv.innerHTML = '';
+
+            q.opts.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.id = `opt-btn-${i}`;
+                btn.onclick = () => {
+                    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedOpt = i;
+                };
+                optsDiv.appendChild(btn);
+            });
+        }
+
+        function useFiftyFifty() {
+            if (fiftyFiftyUsed) return;
+            fiftyFiftyUsed = true;
+            document.getElementById('fiftyFiftyBtn').disabled = true;
+            const correctAnsIndex = currentQuestions[qIndex].ans;
+            let removed = 0;
+            for (let i = 0; i < currentQuestions[qIndex].opts.length; i++) {
+                if (i !== correctAnsIndex && removed < 2) {
+                    const btn = document.getElementById(`opt-btn-${i}`);
+                    if (btn) btn.style.opacity = '0.2';
+                    removed++;
+                }
+            }
+        }
+
+        function useExtraTime() {
+            if (extraTimeUsed) return;
+            extraTimeUsed = true;
+            document.getElementById('extraTimeBtn').disabled = true;
+            timeLeft += 30;
+            updateTimerDisplay();
+        }
+
+        function useSkip() {
+            if (skipUsed) return;
+            skipUsed = true;
+            document.getElementById('skipBtn').disabled = true;
+            userAnswers.push({
+                question: currentQuestions[qIndex].q,
+                selected: "O'tkazib yuborildi",
+                correct: currentQuestions[qIndex].opts[currentQuestions[qIndex].ans],
+                isCorrect: false
+            });
+            qIndex++;
+            if (qIndex < currentQuestions.length) {
+                renderQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function updateTimerDisplay() {
+            document.getElementById('timerDisplay').innerText = `⏱️ ${timeLeft}s`;
+        }
+
+        function nextQuestion() {
+            clearInterval(timerInterval);
+            const isCorrect = (selectedOpt !== null && selectedOpt === currentQuestions[qIndex].ans);
+            if (isCorrect) userScore++;
+
+            userAnswers.push({
+                question: currentQuestions[qIndex].q,
+                selected: selectedOpt !== null ? currentQuestions[qIndex].opts[selectedOpt] : "Belgilanmadi",
+                correct: currentQuestions[qIndex].opts[currentQuestions[qIndex].ans],
+                isCorrect: isCorrect
+            });
+
+            if (window.navigator.vibrate) window.navigator.vibrate(isCorrect ? 30 : 80);
+
+            qIndex++;
+            if (qIndex < currentQuestions.length) {
+                renderQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            clearInterval(timerInterval);
+            const fname = localStorage.getItem('db_fname') || 'O\'quvchi';
+            const lname = localStorage.getItem('db_lname') || '';
+            const percent = Math.round((userScore / currentQuestions.length) * 100);
+
+            document.getElementById('resultStudentName').innerText = `${fname} ${lname}`;
+            document.getElementById('resultScore').innerText = `${percent}%`;
+            document.getElementById('resultDetails').innerText = `${currentQuestions.length} ta savoldan ${userScore} tasi to'g'ri.`;
+
+            const reviewDiv = document.getElementById('reviewList');
+            reviewDiv.innerHTML = '';
+            userAnswers.forEach((ans, idx) => {
+                const card = document.createElement('div');
+                card.className = `review-card ${ans.isCorrect ? 'correct-card' : 'wrong-card'}`;
+                card.innerHTML = `
+                    <div class="review-q">${idx + 1}. ${ans.question}</div>
+                    <div class="review-ans">Sizning tanlovingiz: <b>${ans.selected}</b></div>
+                    ${!ans.isCorrect ? `<div class="review-ans" style="color:var(--success-color);">To'g'ri javob: <b>${ans.correct}</b></div>` : ''}
+                `;
+                reviewDiv.appendChild(card);
+            });
+
+            updateStats(percent);
+            navigateTo('page-result');
+        }
+
+        function toggleReviewSection() {
+            const elem = document.getElementById('review-container');
+            elem.style.display = elem.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
